@@ -51,6 +51,10 @@ function renderizarPublicaciones() {
             <button onclick="alert('${p.titulo}')">
                 Ver
             </button>
+
+            <button onclick="eliminarPublicacion(${p.id})">
+                Eliminar
+            </button>
         </div>
         `;
     }
@@ -98,3 +102,10 @@ renderizarPublicaciones();
 document
     .getElementById("btnPublicar")
     .addEventListener("click", agregarPublicacion);
+
+    function eliminarPublicacion(id) {
+
+    publicaciones = publicaciones.filter(p => p.id !== id);
+
+    renderizarPublicaciones();
+}
