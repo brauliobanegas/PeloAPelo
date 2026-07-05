@@ -7,6 +7,14 @@ let contenedor = document.getElementById("publicaciones");
 ----------------------------*/
 let inputBuscador = document.getElementById("buscador");
 
+let filtroCategoria = document.getElementById("filtroCategoria");
+
+if (filtroCategoria) {
+    filtroCategoria.addEventListener("change", function () {
+        renderizarPublicaciones(inputBuscador.value, this.value);
+    });
+}
+
 if (inputBuscador) {
     inputBuscador.addEventListener("input", function () {
         renderizarPublicaciones(this.value);
@@ -31,6 +39,7 @@ if (!publicaciones) {
             id: 1,
             titulo: "Salamandra",
             estado: "Usada",
+            categoria: "Herramientas",
             busca: "Herramientas",
             imagen: "imagenes/salamandra.jpg"
         },
@@ -38,6 +47,7 @@ if (!publicaciones) {
             id: 2,
             titulo: "Bicicleta",
             estado: "Usada",
+            categoria: "Deportes",
             busca: "Notebook",
             imagen: "imagenes/bicicleta.jpg"
         },
@@ -45,6 +55,7 @@ if (!publicaciones) {
             id: 3,
             titulo: "Soporte para cortina",
             estado: "Nuevo",
+            categoria: "Hogar",
             busca: "Taladro",
             imagen: "imagenes/soporte.jpg"
         }
@@ -54,7 +65,7 @@ if (!publicaciones) {
 /* ---------------------------
    RENDER
 ----------------------------*/
-function renderizarPublicaciones(filtro = "") {
+function renderizarPublicaciones(filtro = "", categoria = "") {
 
     contenedor.innerHTML = "";
 
@@ -62,6 +73,7 @@ function renderizarPublicaciones(filtro = "") {
 
         if (filtro && !p.titulo.toLowerCase().includes(filtro.toLowerCase())) {
             continue;
+        if (categoria && p.categoria !== categoria) continue;
         }
 
         contenedor.innerHTML += `
@@ -71,19 +83,12 @@ function renderizarPublicaciones(filtro = "") {
             <h2>${p.titulo}</h2>
 
             <p><strong>Estado:</strong> ${p.estado}</p>
+            <p><strong>Categoría:</strong> ${p.categoria}</p>
             <p><strong>Busca:</strong> ${p.busca}</p>
 
-            <button onclick="eliminarPublicacion(${p.id})">
-                Eliminar
-            </button>
-
-            <button onclick="editarPublicacion(${p.id})">
-                Editar
-            </button>
-
-            <button onclick="alert('Publicación: ${p.titulo}')">
-                Ver
-            </button>
+            <button onclick="eliminarPublicacion(${p.id})">Eliminar</button>
+            <button onclick="editarPublicacion(${p.id})">Editar</button>
+            <button onclick="alert('Publicación: ${p.titulo}')">Ver</button>
         </div>
         `;
     }
@@ -101,11 +106,12 @@ function agregarPublicacion() {
 
     let titulo = document.getElementById("titulo").value;
     let estado = document.getElementById("estado").value;
+    let categoria = document.getElementById("categoria").value;
     let busca = document.getElementById("busca").value;
     let archivo = document.getElementById("imagen").files[0];
-    let imagen = archivo ? URL.createObjectURL(archivo) : "";
+    let imagen = archivo ? URL.createObjectURL(archivo) : null;
 
-    if (!titulo || !estado || !busca) {
+    if (!titulo || !estado || !categoria || !busca) {
         alert("Completa todos los campos.");
         return;
     }
@@ -116,22 +122,29 @@ function agregarPublicacion() {
 
         pub.titulo = titulo;
         pub.estado = estado;
+        pub.categoria = categoria;
         pub.busca = busca;
-        pub.imagen = imagen || "imagenes/default.jpg";
+
+        if (imagen) {
+            pub.imagen = imagen;
+        }
 
         editandoId = null;
 
     } else {
 
-        let nuevaPublicacion = {
-            id: publicaciones.length > 0 ? Math.max(...publicaciones.map(p => p.id)) + 1 : 1,
+        let nuevoId = publicaciones.length > 0
+            ? Math.max(...publicaciones.map(p => p.id)) + 1
+            : 1;
+
+        publicaciones.push({
+            id: nuevoId,
             titulo,
             estado,
+            categoria,
             busca,
             imagen: imagen || "imagenes/default.jpg"
-        };
-
-        publicaciones.push(nuevaPublicacion);
+        });
     }
 
     guardarPublicaciones();
@@ -139,6 +152,7 @@ function agregarPublicacion() {
 
     document.getElementById("titulo").value = "";
     document.getElementById("estado").value = "";
+    document.getElementById("categoria").value = "";
     document.getElementById("busca").value = "";
     document.getElementById("imagen").value = "";
 }
@@ -165,8 +179,8 @@ function editarPublicacion(id) {
 
     document.getElementById("titulo").value = pub.titulo;
     document.getElementById("estado").value = pub.estado;
+    document.getElementById("categoria").value = pub.categoria;
     document.getElementById("busca").value = pub.busca;
-    document.getElementById("imagen").value = pub.imagen;
 
     editandoId = id;
 }
@@ -179,5 +193,4 @@ renderizarPublicaciones();
 document.getElementById("btnPublicar")
     .addEventListener("click", agregarPublicacion);
 
-console.log("LLEGUÉ AL FINAL DEL SCRIPT");
-console.log(typeof editarPublicacion);
+console.log("SCRIPT CARGADO OK");

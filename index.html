@@ -14,7 +14,18 @@
 
     <input id="titulo" placeholder="Título"><br><br>
 
-    <input id="estado" placeholder="Estado"><br><br>
+    <input id="estado" placeholder="Estado">
+
+    <select id="categoria">
+    <option value="">Seleccione una categoría</option>
+    <option>Hogar</option>
+    <option>Herramientas</option>
+    <option>Electrónica</option>
+    <option>Vehículos</option>
+    <option>Deportes</option>
+    <option>Otros</option>
+    </select>
+    <br><br>
 
     <input id="busca" placeholder="¿Qué buscás?"><br><br>
 
@@ -27,6 +38,18 @@
     <input id="buscador" placeholder="Buscar publicaciones..." style="width:100%; padding:8px;">
     <br><br>
 
+    <select id="filtroCategoria">
+    <option value="">Todas las categorías</option>
+    <option>Hogar</option>
+    <option>Herramientas</option>
+    <option>Electrónica</option>
+    <option>Vehículos</option>
+    <option>Deportes</option>
+    <option>Indumentaria</option>
+    <option>Otros</option>
+    </select>
+    <br><br>
+    
     <div id="publicaciones"></div>
 
     <script src="script.js"></script>
