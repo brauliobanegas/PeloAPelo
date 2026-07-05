@@ -1,4 +1,8 @@
 body {
+    background: #f2f2f2;
+}
+
+body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 40px;
@@ -55,4 +59,68 @@ button {
     font-size: 25px;
 }
 
+}
+#publicaciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.tarjeta {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 10px;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.tarjeta img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.tarjeta h2 {
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+#publicaciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.tarjeta {
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.2s;
+}
+
+.tarjeta:hover {
+    transform: scale(1.02);
+}
+
+.tarjeta img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+button {
+    margin: 3px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
 }

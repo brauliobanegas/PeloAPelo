@@ -3,21 +3,20 @@ console.log("SCRIPT BASE OK");
 let contenedor = document.getElementById("publicaciones");
 
 /* ---------------------------
-   BUSCADOR
+   BUSCADOR + FILTRO
 ----------------------------*/
 let inputBuscador = document.getElementById("buscador");
-
 let filtroCategoria = document.getElementById("filtroCategoria");
-
-if (filtroCategoria) {
-    filtroCategoria.addEventListener("change", function () {
-        renderizarPublicaciones(inputBuscador.value, this.value);
-    });
-}
 
 if (inputBuscador) {
     inputBuscador.addEventListener("input", function () {
-        renderizarPublicaciones(this.value);
+        renderizarPublicaciones(this.value, filtroCategoria?.value || "");
+    });
+}
+
+if (filtroCategoria) {
+    filtroCategoria.addEventListener("change", function () {
+        renderizarPublicaciones(inputBuscador?.value || "", this.value);
     });
 }
 
@@ -71,10 +70,9 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 
     for (let p of publicaciones) {
 
-        if (filtro && !p.titulo.toLowerCase().includes(filtro.toLowerCase())) {
-            continue;
+        if (filtro && !p.titulo.toLowerCase().includes(filtro.toLowerCase())) continue;
+
         if (categoria && p.categoria !== categoria) continue;
-        }
 
         contenedor.innerHTML += `
         <div class="tarjeta">
@@ -100,7 +98,7 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 let editandoId = null;
 
 /* ---------------------------
-   AGREGAR / EDITAR
+   AGREGAR / EDITAR (CORREGIDO)
 ----------------------------*/
 function agregarPublicacion() {
 
@@ -109,52 +107,67 @@ function agregarPublicacion() {
     let categoria = document.getElementById("categoria").value;
     let busca = document.getElementById("busca").value;
     let archivo = document.getElementById("imagen").files[0];
-    let imagen = archivo ? URL.createObjectURL(archivo) : null;
 
     if (!titulo || !estado || !categoria || !busca) {
         alert("Completa todos los campos.");
         return;
     }
 
-    if (editandoId !== null) {
+    if (archivo) {
 
-        let pub = publicaciones.find(p => p.id === editandoId);
+        let reader = new FileReader();
 
-        pub.titulo = titulo;
-        pub.estado = estado;
-        pub.categoria = categoria;
-        pub.busca = busca;
+        reader.onload = function (e) {
 
-        if (imagen) {
-            pub.imagen = imagen;
-        }
+            guardar(e.target.result);
+        };
 
-        editandoId = null;
+        reader.readAsDataURL(archivo);
 
     } else {
-
-        let nuevoId = publicaciones.length > 0
-            ? Math.max(...publicaciones.map(p => p.id)) + 1
-            : 1;
-
-        publicaciones.push({
-            id: nuevoId,
-            titulo,
-            estado,
-            categoria,
-            busca,
-            imagen: imagen || "imagenes/default.jpg"
-        });
+        guardar("");
     }
 
-    guardarPublicaciones();
-    renderizarPublicaciones();
+    function guardar(img) {
 
-    document.getElementById("titulo").value = "";
-    document.getElementById("estado").value = "";
-    document.getElementById("categoria").value = "";
-    document.getElementById("busca").value = "";
-    document.getElementById("imagen").value = "";
+        if (editandoId !== null) {
+
+            let pub = publicaciones.find(p => p.id === editandoId);
+
+            pub.titulo = titulo;
+            pub.estado = estado;
+            pub.categoria = categoria;
+            pub.busca = busca;
+
+            if (img) pub.imagen = img;
+
+            editandoId = null;
+
+        } else {
+
+            let nuevoId = publicaciones.length > 0
+                ? Math.max(...publicaciones.map(p => p.id)) + 1
+                : 1;
+
+            publicaciones.push({
+                id: nuevoId,
+                titulo,
+                estado,
+                categoria,
+                busca,
+                imagen: img || "imagenes/default.jpg"
+            });
+        }
+
+        guardarPublicaciones();
+        renderizarPublicaciones();
+
+        document.getElementById("titulo").value = "";
+        document.getElementById("estado").value = "";
+        document.getElementById("categoria").value = "";
+        document.getElementById("busca").value = "";
+        document.getElementById("imagen").value = "";
+    }
 }
 
 /* ---------------------------
@@ -192,5 +205,3 @@ renderizarPublicaciones();
 
 document.getElementById("btnPublicar")
     .addEventListener("click", agregarPublicacion);
-
-console.log("SCRIPT CARGADO OK");
