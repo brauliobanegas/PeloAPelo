@@ -2,25 +2,31 @@ console.log("SCRIPT BASE OK");
 
 let contenedor = document.getElementById("publicaciones");
 
+/* ---------------------------
+   BUSCADOR
+----------------------------*/
+let inputBuscador = document.getElementById("buscador");
+
+if (inputBuscador) {
+    inputBuscador.addEventListener("input", function () {
+        renderizarPublicaciones(this.value);
+    });
+}
+
+/* ---------------------------
+   STORAGE
+----------------------------*/
 function guardarPublicaciones() {
-
-    localStorage.setItem(
-        "publicaciones",
-        JSON.stringify(publicaciones)
-    );
-
+    localStorage.setItem("publicaciones", JSON.stringify(publicaciones));
 }
 
 /* ---------------------------
    DATOS
 ----------------------------*/
-
 let publicaciones = JSON.parse(localStorage.getItem("publicaciones"));
 
 if (!publicaciones) {
-
     publicaciones = [
-
         {
             id: 1,
             titulo: "Salamandra",
@@ -42,18 +48,21 @@ if (!publicaciones) {
             busca: "Taladro",
             imagen: "imagenes/soporte.jpg"
         }
-
     ];
 }
 
 /* ---------------------------
    RENDER
 ----------------------------*/
-function renderizarPublicaciones() {
+function renderizarPublicaciones(filtro = "") {
 
     contenedor.innerHTML = "";
 
     for (let p of publicaciones) {
+
+        if (filtro && !p.titulo.toLowerCase().includes(filtro.toLowerCase())) {
+            continue;
+        }
 
         contenedor.innerHTML += `
         <div class="tarjeta">
@@ -62,18 +71,18 @@ function renderizarPublicaciones() {
             <h2>${p.titulo}</h2>
 
             <p><strong>Estado:</strong> ${p.estado}</p>
-
             <p><strong>Busca:</strong> ${p.busca}</p>
-
-            <button onclick="alert('${p.titulo}')">
-                Ver
-            </button>
 
             <button onclick="eliminarPublicacion(${p.id})">
                 Eliminar
             </button>
+
             <button onclick="editarPublicacion(${p.id})">
                 Editar
+            </button>
+
+            <button onclick="alert('Publicación: ${p.titulo}')">
+                Ver
             </button>
         </div>
         `;
@@ -81,7 +90,12 @@ function renderizarPublicaciones() {
 }
 
 /* ---------------------------
-   AGREGAR PUBLICACIÓN
+   VARIABLES
+----------------------------*/
+let editandoId = null;
+
+/* ---------------------------
+   AGREGAR / EDITAR
 ----------------------------*/
 function agregarPublicacion() {
 
@@ -90,39 +104,38 @@ function agregarPublicacion() {
     let busca = document.getElementById("busca").value;
     let imagen = document.getElementById("imagen").value;
 
-    if (titulo === "" || estado === "" || busca === "") {
+    if (!titulo || !estado || !busca) {
         alert("Completa todos los campos.");
         return;
     }
 
-   if (editandoId !== null) {
+    if (editandoId !== null) {
 
-    let pub = publicaciones.find(p => p.id === editandoId);
+        let pub = publicaciones.find(p => p.id === editandoId);
 
-    pub.titulo = titulo;
-    pub.estado = estado;
-    pub.busca = busca;
-    pub.imagen = imagen === "" ? "imagenes/default.jpg" : imagen;
+        pub.titulo = titulo;
+        pub.estado = estado;
+        pub.busca = busca;
+        pub.imagen = imagen || "imagenes/default.jpg";
 
-    editandoId = null;
+        editandoId = null;
 
-} else {
+    } else {
 
-    let nuevaPublicacion = {
-        id: publicaciones.length + 1,
-        titulo: titulo,
-        estado: estado,
-        busca: busca,
-        imagen: imagen === "" ? "imagenes/default.jpg" : imagen
-    };
+        let nuevaPublicacion = {
+            id: publicaciones.length > 0 ? Math.max(...publicaciones.map(p => p.id)) + 1 : 1,
+            titulo,
+            estado,
+            busca,
+            imagen: imagen || "imagenes/default.jpg"
+        };
 
-    publicaciones.push(nuevaPublicacion);
-}
+        publicaciones.push(nuevaPublicacion);
+    }
+
     guardarPublicaciones();
-
     renderizarPublicaciones();
 
-    // Limpiar formulario
     document.getElementById("titulo").value = "";
     document.getElementById("estado").value = "";
     document.getElementById("busca").value = "";
@@ -130,28 +143,24 @@ function agregarPublicacion() {
 }
 
 /* ---------------------------
-   INICIALIZAR
+   ELIMINAR
 ----------------------------*/
-renderizarPublicaciones();
-
-document
-    .getElementById("btnPublicar")
-    .addEventListener("click", agregarPublicacion);
-
-    function eliminarPublicacion(id) {
+function eliminarPublicacion(id) {
 
     publicaciones = publicaciones.filter(p => p.id !== id);
 
     guardarPublicaciones();
-
     renderizarPublicaciones();
 }
 
-let editandoId = null;
-
+/* ---------------------------
+   EDITAR
+----------------------------*/
 function editarPublicacion(id) {
 
     let pub = publicaciones.find(p => p.id === id);
+
+    if (!pub) return;
 
     document.getElementById("titulo").value = pub.titulo;
     document.getElementById("estado").value = pub.estado;
@@ -160,5 +169,14 @@ function editarPublicacion(id) {
 
     editandoId = id;
 }
+
+/* ---------------------------
+   INIT
+----------------------------*/
+renderizarPublicaciones();
+
+document.getElementById("btnPublicar")
+    .addEventListener("click", agregarPublicacion);
+
 console.log("LLEGUÉ AL FINAL DEL SCRIPT");
 console.log(typeof editarPublicacion);
