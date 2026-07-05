@@ -86,7 +86,7 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 
             <button onclick="eliminarPublicacion(${p.id})">Eliminar</button>
             <button onclick="editarPublicacion(${p.id})">Editar</button>
-            <button onclick="alert('Publicación: ${p.titulo}')">Ver</button>
+            <button onclick="verPublicacion(${p.id})">Ver</button>
         </div>
         `;
     }
@@ -169,6 +169,25 @@ function agregarPublicacion() {
         document.getElementById("imagen").value = "";
     }
 }
+
+    function verPublicacion(id) {
+
+        let pub = publicaciones.find(p => p.id === id);
+
+        if (!pub) return;
+
+        document.getElementById("modalImagen").src = pub.imagen;
+        document.getElementById("modalTitulo").textContent = pub.titulo;
+        document.getElementById("modalEstado").textContent = "Estado: " + pub.estado;
+        document.getElementById("modalCategoria").textContent = "Categoría: " + pub.categoria;
+        document.getElementById("modalBusca").textContent = "Busca: " + pub.busca;
+
+        document.getElementById("modal").style.display = "flex";
+}
+
+document.getElementById("cerrarModal").addEventListener("click", function () {
+    document.getElementById("modal").style.display = "none";
+});
 
 /* ---------------------------
    ELIMINAR
