@@ -102,7 +102,8 @@ function agregarPublicacion() {
     let titulo = document.getElementById("titulo").value;
     let estado = document.getElementById("estado").value;
     let busca = document.getElementById("busca").value;
-    let imagen = document.getElementById("imagen").value;
+    let archivo = document.getElementById("imagen").files[0];
+    let imagen = archivo ? URL.createObjectURL(archivo) : "";
 
     if (!titulo || !estado || !busca) {
         alert("Completa todos los campos.");
