@@ -2,32 +2,49 @@ console.log("SCRIPT BASE OK");
 
 let contenedor = document.getElementById("publicaciones");
 
+function guardarPublicaciones() {
+
+    localStorage.setItem(
+        "publicaciones",
+        JSON.stringify(publicaciones)
+    );
+
+}
+
 /* ---------------------------
-   DATOS FIJOS
+   DATOS
 ----------------------------*/
-let publicaciones = [
-    {
-        id: 1,
-        titulo: "Salamandra",
-        estado: "Usada",
-        busca: "Herramientas",
-        imagen: "imagenes/salamandra.jpg"
-    },
-    {
-        id: 2,
-        titulo: "Bicicleta",
-        estado: "Usada",
-        busca: "Notebook",
-        imagen: "imagenes/bicicleta.jpg"
-    },
-    {
-        id: 3,
-        titulo: "Soporte para cortina",
-        estado: "Nuevo",
-        busca: "Taladro",
-        imagen: "imagenes/soporte.jpg"
-    }
-];
+
+let publicaciones = JSON.parse(localStorage.getItem("publicaciones"));
+
+if (!publicaciones) {
+
+    publicaciones = [
+
+        {
+            id: 1,
+            titulo: "Salamandra",
+            estado: "Usada",
+            busca: "Herramientas",
+            imagen: "imagenes/salamandra.jpg"
+        },
+        {
+            id: 2,
+            titulo: "Bicicleta",
+            estado: "Usada",
+            busca: "Notebook",
+            imagen: "imagenes/bicicleta.jpg"
+        },
+        {
+            id: 3,
+            titulo: "Soporte para cortina",
+            estado: "Nuevo",
+            busca: "Taladro",
+            imagen: "imagenes/soporte.jpg"
+        }
+
+    ];
+}
 
 /* ---------------------------
    RENDER
@@ -101,6 +118,7 @@ function agregarPublicacion() {
 
     publicaciones.push(nuevaPublicacion);
 }
+    guardarPublicaciones();
 
     renderizarPublicaciones();
 
@@ -123,6 +141,8 @@ document
     function eliminarPublicacion(id) {
 
     publicaciones = publicaciones.filter(p => p.id !== id);
+
+    guardarPublicaciones();
 
     renderizarPublicaciones();
 }
