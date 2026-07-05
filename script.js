@@ -55,6 +55,9 @@ function renderizarPublicaciones() {
             <button onclick="eliminarPublicacion(${p.id})">
                 Eliminar
             </button>
+            <button onclick="editarPublicacion(${p.id})">
+                Editar
+            </button>
         </div>
         `;
     }
@@ -109,3 +112,19 @@ document
 
     renderizarPublicaciones();
 }
+
+let editandoId = null;
+
+function editarPublicacion(id) {
+
+    let pub = publicaciones.find(p => p.id === id);
+
+    document.getElementById("titulo").value = pub.titulo;
+    document.getElementById("estado").value = pub.estado;
+    document.getElementById("busca").value = pub.busca;
+    document.getElementById("imagen").value = pub.imagen;
+
+    editandoId = id;
+}
+console.log("LLEGUÉ AL FINAL DEL SCRIPT");
+console.log(typeof editarPublicacion);
