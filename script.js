@@ -78,6 +78,19 @@ function agregarPublicacion() {
         return;
     }
 
+   if (editandoId !== null) {
+
+    let pub = publicaciones.find(p => p.id === editandoId);
+
+    pub.titulo = titulo;
+    pub.estado = estado;
+    pub.busca = busca;
+    pub.imagen = imagen === "" ? "imagenes/default.jpg" : imagen;
+
+    editandoId = null;
+
+} else {
+
     let nuevaPublicacion = {
         id: publicaciones.length + 1,
         titulo: titulo,
@@ -87,6 +100,7 @@ function agregarPublicacion() {
     };
 
     publicaciones.push(nuevaPublicacion);
+}
 
     renderizarPublicaciones();
 
