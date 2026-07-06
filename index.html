@@ -8,65 +8,100 @@
 
 <body>
 
-    <header class="encabezado">
+<header class="encabezado">
 
     <h1 class="logo">
-    <span class="logoTrueque">Trueque</span><span class="logoAR">AR</span>
-</h1>
+        <span class="logoTrueque">Trueque</span><span class="logoAR">AR</span>
+    </h1>
 
     <p>Cambialo y hacelo útil</p>
 
 </header>
 
-    <section class="formulario">
+<!-- ==========================
+     BUSCADOR
+========================== -->
 
-    <h2>Nueva publicación</h2>
-
-    <input id="titulo" placeholder="Título"><br><br>
-
-    <input id="estado" placeholder="Estado">
-
-    <select id="categoria">
-    <option value="">Seleccione una categoría</option>
-    <option>Hogar</option>
-    <option>Herramientas</option>
-    <option>Electrónica</option>
-    <option>Vehículos</option>
-    <option>Deportes</option>
-    <option>Otros</option>
-    </select>
-    <br><br>
-
-    <input id="busca" placeholder="¿Qué buscás?"><br><br>
-
-    <input type="file" id="imagen" accept="image/*"><br><br>
-
-    <button id="btnPublicar">Publicar</button>
-
-    <hr>
+<section class="formulario">
 
     <input id="buscador" placeholder="Buscar publicaciones..." style="width:100%; padding:8px;">
-    <br><br>
+
+    <div id="chipsCategorias" class="chips-categorias">
+
+        <button class="chip activo" data-categoria="">Todas</button>
+        <button class="chip" data-categoria="Hogar">Hogar</button>
+        <button class="chip" data-categoria="Herramientas">Herramientas</button>
+        <button class="chip" data-categoria="Electrónica">Electrónica</button>
+        <button class="chip" data-categoria="Vehículos">Vehículos</button>
+        <button class="chip" data-categoria="Deportes">Deportes</button>
+        <button class="chip" data-categoria="Indumentaria">Indumentaria</button>
+        <button class="chip" data-categoria="Otros">Otros</button>
+
+    </div>
 
     <select id="filtroCategoria">
-    <option value="">Todas las categorías</option>
-    <option>Hogar</option>
-    <option>Herramientas</option>
-    <option>Electrónica</option>
-    <option>Vehículos</option>
-    <option>Deportes</option>
-    <option>Indumentaria</option>
-    <option>Otros</option>
+        <option value="">Todas las categorías</option>
+        <option>Hogar</option>
+        <option>Herramientas</option>
+        <option>Electrónica</option>
+        <option>Vehículos</option>
+        <option>Deportes</option>
+        <option>Indumentaria</option>
+        <option>Otros</option>
     </select>
-    <br><br>
 
-    </section>
+</section>
 
-    <section>
+<!-- ==========================
+     PUBLICACIONES
+========================== -->
+
+<section>
 
     <div id="publicaciones"></div>
 
-    </section>
+</section>
+
+<!-- ==========================
+     FORMULARIO
+========================== -->
+
+<section class="formulario">
+
+    <h2>Nueva publicación</h2>
+
+    <label for="titulo">Título</label>
+    <input id="titulo" placeholder="Ej: Bicicleta rodado 29">
+
+    <label for="estado">Estado</label>
+    <input id="estado" placeholder="Nuevo / Usado">
+
+    <label for="categoria">Categoría</label>
+
+    <select id="categoria">
+        <option value="">Seleccione una categoría</option>
+        <option>Hogar</option>
+        <option>Herramientas</option>
+        <option>Electrónica</option>
+        <option>Vehículos</option>
+        <option>Deportes</option>
+        <option>Indumentaria</option>
+        <option>Otros</option>
+    </select>
+
+    <label for="busca">¿Qué buscás?</label>
+    <input id="busca" placeholder="Ej: Notebook, herramientas, etc.">
+
+    <label for="imagen">Imagen</label>
+    <input type="file" id="imagen" accept="image/*">
+
+    <button id="btnPublicar">Publicar</button>
+
+</section>
+
+<!-- ==========================
+     MODAL
+========================== -->
 
 <div id="modal" class="modal">
 
@@ -88,7 +123,7 @@
 
 </div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>

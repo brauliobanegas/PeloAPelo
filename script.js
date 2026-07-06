@@ -7,6 +7,7 @@ let contenedor = document.getElementById("publicaciones");
 ----------------------------*/
 let inputBuscador = document.getElementById("buscador");
 let filtroCategoria = document.getElementById("filtroCategoria");
+let chips = document.querySelectorAll(".chip");
 
 if (inputBuscador) {
     inputBuscador.addEventListener("input", function () {
@@ -19,6 +20,27 @@ if (filtroCategoria) {
         renderizarPublicaciones(inputBuscador?.value || "", this.value);
     });
 }
+
+chips.forEach(chip => {
+
+    chip.addEventListener("click", function () {
+
+        chips.forEach(c => c.classList.remove("activo"));
+
+        this.classList.add("activo");
+
+        const categoria = this.dataset.categoria;
+
+        filtroCategoria.value = categoria;
+
+        renderizarPublicaciones(
+            inputBuscador?.value || "",
+            categoria
+        );
+
+    });
+
+});
 
 /* ---------------------------
    STORAGE
