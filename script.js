@@ -68,7 +68,37 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 
     contenedor.innerHTML = "";
 
-    for (let p of publicaciones) {
+    if (publicaciones.length === 0) {
+    contenedor.innerHTML = `
+        <div style="
+            width:100%;
+            text-align:center;
+            padding:40px 20px;
+            color:#666;
+        ">
+            <h3 style="margin-bottom:8px;">No hay publicaciones todavía</h3>
+            <p style="font-size:13px;">Sé el primero en intercambiar algo 👍</p>
+        </div>
+    `;
+    return;
+}
+
+    if (publicaciones.length === 0) {
+    contenedor.innerHTML = `
+        <p style="
+            text-align:center;
+            color:#777;
+            width:100%;
+            padding:30px;
+            font-size:14px;
+        ">
+            No hay publicaciones todavía. Sé el primero en publicar 👍
+        </p>
+    `;
+    return;
+}
+
+    for (let p of [...publicaciones].reverse()) {
 
         if (filtro && !p.titulo.toLowerCase().includes(filtro.toLowerCase())) continue;
 
@@ -78,15 +108,18 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
         <div class="tarjeta">
             <img src="${p.imagen}" width="200">
 
+            <span class="badge ${p.estado.toLowerCase()}">${p.estado}</span>
             <h2>${p.titulo}</h2>
 
             <p><strong>Estado:</strong> ${p.estado}</p>
             <p><strong>Categoría:</strong> ${p.categoria}</p>
             <p><strong>Busca:</strong> ${p.busca}</p>
 
-            <button onclick="eliminarPublicacion(${p.id})">Eliminar</button>
-            <button onclick="editarPublicacion(${p.id})">Editar</button>
-            <button onclick="verPublicacion(${p.id})">Ver</button>
+            <div class="acciones">
+            <button class="btn-ver" onclick="verPublicacion(${p.id})">Ver</button>
+            <button class="btn-editar" onclick="editarPublicacion(${p.id})">Editar</button>
+            <button class="btn-eliminar" onclick="eliminarPublicacion(${p.id})">Eliminar</button>
+            </div>
         </div>
         `;
     }
@@ -161,6 +194,18 @@ function agregarPublicacion() {
 
         guardarPublicaciones();
         renderizarPublicaciones();
+        contenedor.style.transition = "opacity 0.15s ease";
+        contenedor.style.opacity = "0.5";
+
+        setTimeout(() => {
+            contenedor.style.opacity = "1";
+        }, 120);
+
+        contenedor.style.opacity = "0.6";
+
+        setTimeout(() => {
+            contenedor.style.opacity = "1";
+        }, 150);
 
         document.getElementById("titulo").value = "";
         document.getElementById("estado").value = "";
