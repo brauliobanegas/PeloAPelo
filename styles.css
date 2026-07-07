@@ -3,499 +3,212 @@
    Hoja de estilos principal
 ==========================================================*/
 
-body{
-    background:rgb(201, 243, 240) !important;
-}
-
 /* ==========================================================
    BODY
 ==========================================================*/
 
-body {
-    .logo{
-    font-family: 'Poppins', sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
-    background: #f4f4f4;
-    margin: 40px;
-    color: #333;
+
+body{
+
+    font-family:'Poppins', Arial, sans-serif;
+
+    background:rgb(201, 243, 240);
+
+    color:#333;
+
+    padding:20px;
+
 }
 
 /* ==========================================================
    HEADER
 ==========================================================*/
 
-.encabezado {
-    background: linear-gradient(90deg, #6EC6FF, #2196F3, #6EC6FF);
-    text-align: center;
-    padding: 25px;
-    margin-bottom: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+.encabezado{
+
+    background:linear-gradient(90deg,#6EC6FF,#2196F3,#6EC6FF);
+
+    text-align:center;
+
+    padding:25px;
+
+    margin-bottom:30px;
+
+    border-radius:12px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+
 }
 
-.logo {
-    margin: 0;
-    font-size: 72px;
-    font-weight: 900;
-    font-family: 'Poppins', sans-serif;
-    letter-spacing: -3px;
-    text-transform: none;
+.logo{
+
+    margin:0;
+
+    font-size:72px;
+
+    font-weight:900;
+
+    letter-spacing:-3px;
+
+    text-transform:none;
+
 }
 
-.logoTrueque {
-    color: white;
-    text-shadow: 0 3px 8px rgba(0,0,0,.35);
+.logoTrueque{
+
+    color:#ffffff;
+
+    text-shadow:0 3px 8px rgba(0,0,0,.35);
+
 }
 
-.logoAR {
-    color: #FFD400;
-    text-shadow: 0 0 10px rgba(255,212,0,.55);
+.logoAR{
+
+    color:#FFD400;
+
+    text-shadow:0 0 10px rgba(255,212,0,.55);
+
 }
 
-.encabezado p {
-    margin-top: 10px;
-    color: #ffffff;
-    font-size: 1.05rem;
+.encabezado p{
+
+    margin-top:10px;
+
+    color:#ffffff;
+
+    font-size:1.05rem;
+
 }
 
 /* ==========================================================
    FORMULARIO
 ==========================================================*/
 
-.formulario {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+.formulario{
+
+    background:#ffffff;
+
+    padding:20px;
+
+    margin-bottom:30px;
+
+    border-radius:12px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.formulario h2{
+
+    margin-bottom:18px;
+
+    color:#333;
+
+}
+
+.formulario label{
+
+    display:block;
+
+    margin-bottom:6px;
+
+    font-weight:600;
+
 }
 
 .formulario input,
-.formulario select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box;
-    font-size: 15px;
-}
+.formulario select{
 
-/* ==========================================================
-   BOTONES
-==========================================================*/
+    width:100%;
 
-button {
-    background: #0d6efd;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: .2s;
-}
+    padding:12px;
 
-button:hover {
-    background: #0b5ed7;
-}
+    margin-bottom:16px;
 
-/* ==========================================================
-   PUBLICACIONES
-==========================================================*/
+    border:1px solid #d0d7de;
 
-#publicaciones {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-}
+    border-radius:10px;
 
-/* ==========================================================
-   TARJETAS
-==========================================================*/
+    font-size:15px;
 
-.tarjeta {
-    transition: 0.2s;
-}
-
-.tarjeta:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-}
-  
-.tarjeta img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    background: #f5f5f5;
-}
-
-.tarjeta h2 {
-    margin: 12px 0;
-    font-size: 20px;
-}
-
-.tarjeta p {
-    margin: 6px 0;
-}
-
-/* ==========================================================
-   MODAL
-==========================================================*/
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.60);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-contenido {
-    background: white;
-    width: 90%;
-    max-width: 500px;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.modal-contenido img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-#cerrarModal {
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* ==========================================================
-   BUSCADOR Y FILTRO
-==========================================================*/
-
-#buscador,
-#filtroCategoria {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-/* ===========================
-   BOTONES UX MEJORADA
-=========================== */
-
-.acciones {
-    display: flex;
-    gap: 6px;
-    padding: 12px;
-    margin-top: auto;
-}
-
-.acciones button {
-    flex: 1;
-    font-size: 12px;
-    padding: 6px;
-    border-radius: 8px;
-}
-
-/* VER (principal) */
-.btn-ver {
-    background: #0d6efd;
-    color: white;
-}
-
-/* EDITAR */
-.btn-editar {
-    background: #ffc107;
-    color: black;
-}
-
-/* ELIMINAR */
-.btn-eliminar {
-    background: #dc3545;
-    color: white;
-}
-
-.tarjeta {
-    background: white;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-}
-
-.tarjeta h2,
-.tarjeta p {
-    margin: 0;
-    padding: 0 12px;
-}
-
-.tarjeta h2 {
-    font-size: 18px;
-    margin-top: 10px;
-}
-
-.tarjeta p {
-    font-size: 13px;
-    color: #555;
-    margin-top: 4px;
-}
-
-/* ===========================
-   BADGES (ESTADO PUBLICACIÓN)
-=========================== */
-
-.badge {
-    display: inline-block;
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    margin: 8px 12px 0 12px;
-    font-weight: bold;
-}
-
-/* estado USADA */
-.badge.usada {
-    background: #fff4e6;
-    color: #d9480f;
-}
-
-/* estado NUEVO */
-.badge.nuevo {
-    background: #e7f5ff;
-    color: #1971c2;
-}
-
-/* ===========================
-   CARD MARKETPLACE UX
-=========================== */
-
-.tarjeta {
-    background: white;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-}
-
-/* imagen */
-.tarjeta img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    background: #f5f5f5;
-}
-
-/* título */
-.tarjeta h2 {
-    font-size: 17px;
-    margin: 10px 12px 0 12px;
-}
-
-/* textos */
-.tarjeta p {
-    font-size: 13px;
-    color: #555;
-    margin: 4px 12px;
-}
-
-/* hover suave */
-.tarjeta {
-    transition: 0.2s;
-}
-
-.tarjeta:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-}
-
-/* ===========================
-   ACCIONES DE CARD
-=========================== */
-
-.acciones {
-    display: flex;
-    gap: 6px;
-    padding: 12px;
-    margin-top: auto;
-}
-
-.acciones button {
-    flex: 1;
-    font-size: 12px;
-    padding: 6px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-}
-
-/* VER */
-.btn-ver {
-    background: #0d6efd;
-    color: white;
-}
-
-/* EDITAR */
-.btn-editar {
-    background: #ffc107;
-    color: black;
-}
-
-/* ELIMINAR */
-.btn-eliminar {
-    background: #dc3545;
-    color: white;
-}
-
-/* ===========================
-   ANIMACIÓN CARDS
-=========================== */
-
-.tarjeta {
-    animation: fadeIn 0.25s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ===========================
-   CHIPS DE CATEGORÍAS
-=========================== */
-
-.chips-categorias {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 15px 0;
-}
-
-.chip {
-    background: white;
-    border: 2px solid #0d6efd;
-    color: #0d6efd;
-    border-radius: 25px;
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.chip:hover {
-    background: #eaf3ff;
-}
-
-.chip.activo {
-    background: #0d6efd;
-    color: white;
-}
-
-/* ===========================
-   OCULTAR FILTRO ANTIGUO
-=========================== */
-
-#filtroCategoria{
-    display:none;
-}
-
-/* ===========================
-   FORMULARIO
-=========================== */
-
-.formulario input,
-.formulario select {
-
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0 16px;
-    border: 1px solid #d0d7de;
-    border-radius: 10px;
-    font-size: 15px;
-    box-sizing: border-box;
-    transition: 0.2s;
+    transition:.2s;
 
 }
 
 .formulario input:focus,
-.formulario select:focus {
+.formulario select:focus{
 
-    outline: none;
-    border-color: #0d6efd;
-    box-shadow: 0 0 8px rgba(13,110,253,.2);
+    outline:none;
+
+    border-color:#0d6efd;
+
+    box-shadow:0 0 8px rgba(13,110,253,.2);
 
 }
 
-/* ===========================
+/* ==========================================================
    BOTÓN PUBLICAR
-=========================== */
+==========================================================*/
 
-#btnPublicar {
+#btnPublicar{
 
-    width: 100%;
-    padding: 14px;
+    width:100%;
 
-    background: #0d6efd;
-    color: white;
+    padding:14px;
 
-    border: none;
-    border-radius: 10px;
+    background:#0d6efd;
+    color:#ffffff;
 
-    font-size: 16px;
-    font-weight: bold;
+    border:none;
+    border-radius:10px;
 
-    cursor: pointer;
+    font-size:16px;
+    font-weight:bold;
 
-    transition: 0.2s;
+    cursor:pointer;
 
-}
-
-#btnPublicar:hover {
-
-    background: #0b5ed7;
-
-    transform: translateY(-2px);
+    transition:.2s;
 
 }
 
-#btnPublicar:active {
+#btnPublicar:hover{
 
-    transform: translateY(0);
+    background:#0b5ed7;
+
+    transform:translateY(-2px);
 
 }
 
-/* ===========================
+#btnPublicar:active{
+
+    transform:translateY(0);
+
+}
+
+/* ==========================================================
    BUSCADOR
-=========================== */
+==========================================================*/
 
 .contenedorBuscador{
 
     display:flex;
     align-items:center;
 
-    background:white;
+    background:#ffffff;
 
     border:1px solid #d0d7de;
     border-radius:30px;
 
     padding:0 16px;
 
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-
     margin-bottom:18px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 
 }
 
@@ -525,10 +238,6 @@ button:hover {
 
 }
 
-/* ===========================
-   SECCIÓN DE BÚSQUEDA
-=========================== */
-
 .subtituloBusqueda{
 
     margin-top:-8px;
@@ -541,3 +250,395 @@ button:hover {
     line-height:1.4;
 
 }
+
+/* ==========================================================
+   CHIPS DE CATEGORÍAS
+==========================================================*/
+
+.chips-categorias{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin:15px 0;
+
+}
+
+.chip{
+
+    background:#ffffff;
+
+    color:#0d6efd;
+
+    border:2px solid #0d6efd;
+
+    border-radius:25px;
+
+    padding:8px 16px;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.chip:hover{
+
+    background:#eaf3ff;
+
+}
+
+.chip.activo{
+
+    background:#0d6efd;
+
+    color:#ffffff;
+
+}
+
+/* Ocultamos el filtro viejo */
+
+#filtroCategoria{
+
+    display:none;
+
+}
+
+/* ==========================================================
+   PUBLICACIONES
+==========================================================*/
+
+#publicaciones{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+
+    gap:20px;
+
+}
+
+/* ==========================================================
+   CARDS
+==========================================================*/
+
+.tarjeta{
+
+    background:#ffffff;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+
+    display:flex;
+
+    flex-direction:column;
+
+    transition:.2s;
+
+}
+
+.tarjeta:hover{
+
+    transform:scale(1.02);
+
+    box-shadow:0 6px 16px rgba(0,0,0,.12);
+
+}
+
+.tarjeta img{
+
+    width:100%;
+
+    height:200px;
+
+    object-fit:cover;
+
+    background:#f5f5f5;
+
+}
+
+.tarjeta h2{
+
+    font-size:18px;
+
+    margin:10px 12px 0 12px;
+
+}
+
+.tarjeta p{
+
+    font-size:13px;
+
+    color:#555;
+
+    margin:4px 12px;
+
+}
+
+/* ==========================================================
+   BADGES
+==========================================================*/
+
+.badge{
+
+    display:inline-block;
+
+    font-size:11px;
+
+    padding:4px 10px;
+
+    border-radius:999px;
+
+    margin:8px 12px 0 12px;
+
+    font-weight:bold;
+
+}
+
+
+/* Estado USADA */
+
+.badge.usada{
+
+    background:#fff4e6;
+
+    color:#d9480f;
+
+}
+
+
+/* Estado NUEVO */
+
+.badge.nuevo{
+
+    background:#e7f5ff;
+
+    color:#1971c2;
+
+}
+
+/* ==========================================================
+   BOTONES DE CARD
+==========================================================*/
+
+.acciones{
+
+    display:flex;
+
+    gap:6px;
+
+    padding:12px;
+
+    margin-top:auto;
+
+}
+
+
+.acciones button{
+
+    flex:1;
+
+    font-size:12px;
+
+    padding:6px;
+
+    border-radius:8px;
+
+}
+
+
+/* VER */
+
+.btn-ver{
+
+    background:#0d6efd;
+
+    color:white;
+
+}
+
+
+/* EDITAR */
+
+.btn-editar{
+
+    background:#ffc107;
+
+    color:black;
+
+}
+
+
+/* ELIMINAR */
+
+.btn-eliminar{
+
+    background:#dc3545;
+
+    color:white;
+
+}
+
+/* ==========================================================
+   MODAL
+==========================================================*/
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.60);
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+.modal-contenido{
+
+    background:white;
+
+    width:90%;
+
+    max-width:500px;
+
+    padding:20px;
+
+    border-radius:12px;
+
+}
+
+
+.modal-contenido img{
+
+    width:100%;
+
+    border-radius:10px;
+
+    margin-bottom:15px;
+
+}
+
+
+#cerrarModal{
+
+    float:right;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+/* ==========================================================
+   ANIMACIÓN CARDS
+==========================================================*/
+
+.tarjeta{
+
+    animation:fadeIn .25s ease-in-out;
+
+}
+
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+==========================================================*/
+
+@media (max-width:768px){
+
+
+    body{
+
+        padding:10px;
+
+    }
+
+
+    .encabezado{
+
+        padding:18px;
+
+    }
+
+
+    .logo{
+
+        font-size:48px;
+
+    }
+
+
+    #publicaciones{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .formulario{
+
+        padding:15px;
+
+    }
+
+
+    .chips-categorias{
+
+        gap:6px;
+
+    }
+
+
+    .chip{
+
+        padding:7px 12px;
+
+        font-size:13px;
+
+    }
+
+
+    .modal-contenido{
+
+        width:95%;
+
+    }
+
+}
+
