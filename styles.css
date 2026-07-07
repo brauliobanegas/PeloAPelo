@@ -640,5 +640,166 @@ body{
 
     }
 
+        .tarjeta img{
+
+        height:160px;
+
+    }
+
+    .tarjeta h2{
+
+        font-size:16px;
+
+    }
+
+        .formulario input,
+    .formulario select{
+
+        font-size:16px;
+
+        padding:14px;
+
+    }
+
+    #btnPublicar{
+
+        padding:16px;
+
+        font-size:17px;
+
+    }
+
+        .tarjeta img{
+
+        height:160px;
+
+    }
+
+
+    .tarjeta h2{
+
+        font-size:16px;
+
+    }
+
+    .tarjeta p{
+
+        font-size:14px;
+
+    }
+
+        .encabezado p{
+
+        font-size:14px;
+
+    }
+
+
+    .logo{
+
+        letter-spacing:-1px;
+
+    }
+
+    .chips-categorias{
+
+        gap:8px;
+
+    }
+
+
+    .chip{
+
+        padding:10px 14px;
+
+        font-size:14px;
+
+    }
+    .modal-contenido{
+
+        width:95%;
+
+        padding:15px;
+
+    }
+
+
+    .modal-contenido img{
+
+        max-height:300px;
+
+        object-fit:contain;
+
+    }
+
+
+    #cerrarModal{
+
+        font-size:32px;
+
+    }
+    /* ===========================
+   RESPONSIVE 7
+===========================*/
+
+    .contenedorBuscador{
+
+        padding:0 12px;
+
+    }
+
+
+    #buscador{
+
+        font-size:15px;
+
+    }
+
+
+    .acciones{
+
+        padding:10px;
+
+    }
+
+
+    .acciones button{
+
+        font-size:13px;
+
+        padding:8px 5px;
+
+    }
+    
+}
+
+/* ===========================
+   RESPONSIVE EXTRA PEQUEÑO
+===========================*/
+
+@media (max-width:400px){
+
+    .logo{
+
+        font-size:40px;
+
+    }
+
+
+    .chip{
+
+        font-size:13px;
+
+        padding:8px 10px;
+
+    }
+
+
+    .tarjeta img{
+
+        height:140px;
+
+    }
+
 }
 
