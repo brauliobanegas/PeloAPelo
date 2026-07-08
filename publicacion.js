@@ -13,3 +13,17 @@ document.getElementById("estado").innerText = "Estado: " + publicacion.estado;
 document.getElementById("busca").innerText = "Busca: " + publicacion.busca;
 
 document.getElementById("descripcion").innerText = publicacion.descripcion;
+
+async function probarConexion() {
+    const { data, error } = await supabaseClient
+        .from("usuarios")
+        .select("*");
+
+    console.log("Usuarios:", data);
+
+    if (error) {
+        console.error(error);
+    }
+}
+
+probarConexion();
