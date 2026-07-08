@@ -26,11 +26,12 @@ document
             .from("usuarios")
             .insert([
                 {
+                    auth_id: data.user.id,
                     nombre: nombre,
                     email: email,
                     telefono: telefono
                 }
-            ]);
+]);
 
         if (errorPerfil) {
             console.error(errorPerfil);
