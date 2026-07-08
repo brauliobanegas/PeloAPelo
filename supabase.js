@@ -8,17 +8,3 @@ const supabaseClient = window.supabase.createClient(
 );
 
 console.log("Supabase conectado:", supabaseClient);
-
-async function probarConexion() {
-    const { data, error } = await supabaseClient
-        .from("usuarios")
-        .select("*");
-
-    console.log("Usuarios:", data);
-
-    if (error) {
-        console.error(error);
-    }
-}
-
-probarConexion();
