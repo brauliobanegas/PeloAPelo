@@ -168,7 +168,7 @@ let editandoId = null;
 /* ---------------------------
    AGREGAR / EDITAR (CORREGIDO)
 ----------------------------*/
-function agregarPublicacion() {
+async function agregarPublicacion() {
 
     let titulo = document.getElementById("titulo").value;
     let estado = document.getElementById("estado").value;
@@ -196,7 +196,7 @@ function agregarPublicacion() {
         guardar("");
     }
 
-    function guardar(img) {
+    async function guardar(img) {
 
         if (editandoId !== null) {
 
@@ -213,12 +213,20 @@ function agregarPublicacion() {
 
         } else {
 
+            const usuarioId = await obtenerUsuarioActual();
+
+            if (!usuarioId) {
+                alert("No hay usuario autenticado.");
+                return;
+            }
+            
             let nuevoId = publicaciones.length > 0
                 ? Math.max(...publicaciones.map(p => p.id)) + 1
                 : 1;
 
             publicaciones.push({
                 id: nuevoId,
+                usuario_id: usuarioId,
                 titulo,
                 estado,
                 categoria,
@@ -321,3 +329,29 @@ document
         window.location.href = "login.html";
 
     });
+
+    async function obtenerUsuarioActual() {
+
+    const { data: { session } } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+        return null;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("usuarios")
+        .select("id")
+        .eq("auth_id", session.user.id)
+        .single();
+
+    if (error) {
+        console.error("Error obteniendo usuario:", error);
+        return null;
+    }
+
+    return data.id;
+}
+
+obtenerUsuarioActual().then(id => {
+    console.log("Usuario actual ID:", id);
+});
