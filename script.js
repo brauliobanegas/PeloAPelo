@@ -1,3 +1,16 @@
+(async () => {
+
+    const { data } = await supabaseClient.auth.getSession();
+
+    if (!data.session) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    console.log("Usuario autenticado:", data.session.user.email);
+
+})();
+
 console.log("SCRIPT BASE OK");
 
 let contenedor = document.getElementById("publicaciones");
@@ -291,3 +304,20 @@ renderizarPublicaciones();
 
 document.getElementById("btnPublicar")
     .addEventListener("click", agregarPublicacion);
+
+
+
+document
+    .getElementById("btnCerrarSesion")
+    .addEventListener("click", async () => {
+
+        const { error } = await supabaseClient.auth.signOut();
+
+        if (error) {
+            console.error(error);
+            return;
+        }
+
+        window.location.href = "login.html";
+
+    });
