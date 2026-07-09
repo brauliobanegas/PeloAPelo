@@ -233,6 +233,24 @@ async function agregarPublicacion() {
                 busca,
                 imagen: img || "imagenes/default.jpg"
             });
+
+            const { error } = await supabaseClient
+                .from("publicaciones")
+                .insert([
+                    {
+                        usuario_id: usuarioId,
+                        titulo,
+                        estado,
+                        categoria,
+                        busca,
+                        imagen: img || "imagenes/default.jpg"
+                    }
+                ]);
+
+            if (error) {
+                console.error("Error guardando publicación en Supabase:", error);
+            }
+        
         }
 
         guardarPublicaciones();
