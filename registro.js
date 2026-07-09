@@ -34,10 +34,13 @@ document
 ]);
 
         if (errorPerfil) {
-            console.error(errorPerfil);
-            mensaje.textContent = "Usuario creado, pero error guardando perfil.";
-            return;
-        }
+            console.error("Error al guardar el perfil:", errorPerfil);
+
+            mensaje.textContent =
+            "La cuenta fue creada, pero ocurrió un problema al guardar el perfil. Si el problema persiste, contactá al administrador.";
+
+        return;
+}
 
         mensaje.textContent = "Usuario registrado correctamente.";
 

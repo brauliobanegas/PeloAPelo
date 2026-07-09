@@ -24,4 +24,5 @@ document
         console.log("Sesión iniciada:", data.user);
 
         mensaje.textContent = "¡Bienvenido a TruequeAR!";
+        window.location.href = "index.html";
     });
