@@ -13,6 +13,21 @@
 
 console.log("SCRIPT BASE OK");
 
+async function cargarPublicacionesSupabase() {
+
+    const { data, error } = await supabaseClient
+        .from("publicaciones")
+        .select("*")
+        .order("id", { ascending: false });
+
+    if (error) {
+        console.error("Error cargando publicaciones:", error);
+        return [];
+    }
+
+    return data;
+}
+
 let contenedor = document.getElementById("publicaciones");
 
 /* ---------------------------
@@ -65,7 +80,7 @@ function guardarPublicaciones() {
 /* ---------------------------
    DATOS
 ----------------------------*/
-let publicaciones = JSON.parse(localStorage.getItem("publicaciones"));
+let publicaciones = [];
 
 if (!publicaciones) {
     publicaciones = [
@@ -326,7 +341,15 @@ function editarPublicacion(id) {
 /* ---------------------------
    INIT
 ----------------------------*/
-renderizarPublicaciones();
+(async () => {
+
+    publicaciones = await cargarPublicacionesSupabase();
+
+    console.log("Publicaciones cargadas desde Supabase:", publicaciones);
+
+    renderizarPublicaciones();
+
+})();
 
 document.getElementById("btnPublicar")
     .addEventListener("click", agregarPublicacion);
