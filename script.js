@@ -7,11 +7,9 @@
         return;
     }
 
-    console.log("Usuario autenticado:", data.session.user.email);
 
 })();
 
-console.log("SCRIPT BASE OK");
 
 async function cargarPublicacionesSupabase() {
 
@@ -71,45 +69,9 @@ chips.forEach(chip => {
 });
 
 /* ---------------------------
-   STORAGE
-----------------------------*/
-function guardarPublicaciones() {
-    localStorage.setItem("publicaciones", JSON.stringify(publicaciones));
-}
-
-/* ---------------------------
    DATOS
 ----------------------------*/
 let publicaciones = [];
-
-if (!publicaciones) {
-    publicaciones = [
-        {
-            id: 1,
-            titulo: "Salamandra",
-            estado: "Usada",
-            categoria: "Herramientas",
-            busca: "Herramientas",
-            imagen: "imagenes/salamandra.jpg"
-        },
-        {
-            id: 2,
-            titulo: "Bicicleta",
-            estado: "Usada",
-            categoria: "Deportes",
-            busca: "Notebook",
-            imagen: "imagenes/bicicleta.jpg"
-        },
-        {
-            id: 3,
-            titulo: "Soporte para cortina",
-            estado: "Nuevo",
-            categoria: "Hogar",
-            busca: "Taladro",
-            imagen: "imagenes/soporte.jpg"
-        }
-    ];
-}
 
 /* ---------------------------
    RENDER
@@ -129,21 +91,6 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
             <h3 style="margin-bottom:8px;">No hay publicaciones todavía</h3>
             <p style="font-size:13px;">Sé el primero en intercambiar algo 👍</p>
         </div>
-    `;
-    return;
-}
-
-    if (publicaciones.length === 0) {
-    contenedor.innerHTML = `
-        <p style="
-            text-align:center;
-            color:#777;
-            width:100%;
-            padding:30px;
-            font-size:14px;
-        ">
-            No hay publicaciones todavía. Sé el primero en publicar 👍
-        </p>
     `;
     return;
 }
@@ -215,16 +162,29 @@ async function agregarPublicacion() {
 
         if (editandoId !== null) {
 
-            let pub = publicaciones.find(p => p.id === editandoId);
+    const datosActualizar = {
+        titulo,
+        estado,
+        categoria,
+        busca
+    };
 
-            pub.titulo = titulo;
-            pub.estado = estado;
-            pub.categoria = categoria;
-            pub.busca = busca;
+    if (img) {
+        datosActualizar.imagen = img;
+    }
 
-            if (img) pub.imagen = img;
+    const { error } = await supabaseClient
+        .from("publicaciones")
+        .update(datosActualizar)
+        .eq("id", editandoId);;
+        
+    if (error) {
+        console.error("Error actualizando publicación:", error);
+        alert("No se pudo actualizar la publicación.");
+        return;
+    }
 
-            editandoId = null;
+    editandoId = null;
 
         } else {
 
@@ -235,40 +195,26 @@ async function agregarPublicacion() {
                 return;
             }
             
-            let nuevoId = publicaciones.length > 0
-                ? Math.max(...publicaciones.map(p => p.id)) + 1
-                : 1;
-
-            publicaciones.push({
-                id: nuevoId,
-                usuario_id: usuarioId,
-                titulo,
-                estado,
-                categoria,
-                busca,
-                imagen: img || "imagenes/default.jpg"
-            });
-
             const { error } = await supabaseClient
                 .from("publicaciones")
-                .insert([
-                    {
-                        usuario_id: usuarioId,
-                        titulo,
-                        estado,
-                        categoria,
-                        busca,
-                        imagen: img || "imagenes/default.jpg"
-                    }
-                ]);
+                .insert({
+                    usuario_id: usuarioId,
+                    titulo,
+                    estado,
+                    categoria,
+                    busca,
+                    imagen: img || "imagenes/default.jpg"
+            });
 
             if (error) {
-                console.error("Error guardando publicación en Supabase:", error);
+                console.error("Error guardando publicación:", error);
+                alert("No se pudo guardar la publicación.");
+                return;
             }
-        
+                  
         }
 
-        guardarPublicaciones();
+        publicaciones = await cargarPublicacionesSupabase();
         renderizarPublicaciones();
         contenedor.style.transition = "opacity 0.15s ease";
         contenedor.style.opacity = "0.5";
@@ -313,11 +259,24 @@ document.getElementById("cerrarModal").addEventListener("click", function () {
 /* ---------------------------
    ELIMINAR
 ----------------------------*/
-function eliminarPublicacion(id) {
+async function eliminarPublicacion(id) {
 
-    publicaciones = publicaciones.filter(p => p.id !== id);
+    const confirmar = confirm("¿Seguro que querés eliminar esta publicación?");
 
-    guardarPublicaciones();
+    if (!confirmar) return;
+
+    const { error } = await supabaseClient
+        .from("publicaciones")
+        .delete()
+        .eq("id", id);
+    
+    if (error) {
+        console.error("Error eliminando publicación:", error);
+        alert("No se pudo eliminar la publicación.");
+        return;
+    }
+
+    publicaciones = await cargarPublicacionesSupabase();
     renderizarPublicaciones();
 }
 
@@ -344,8 +303,6 @@ function editarPublicacion(id) {
 (async () => {
 
     publicaciones = await cargarPublicacionesSupabase();
-
-    console.log("Publicaciones cargadas desde Supabase:", publicaciones);
 
     renderizarPublicaciones();
 
@@ -392,7 +349,3 @@ document
 
     return data.id;
 }
-
-obtenerUsuarioActual().then(id => {
-    console.log("Usuario actual ID:", id);
-});
