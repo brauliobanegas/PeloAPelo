@@ -370,6 +370,13 @@ document.getElementById("btnRegistro")
 
 });
 
+document.getElementById("btnPerfil")
+.addEventListener("click", () => {
+
+    window.location.href = "perfil.html";
+
+});
+
 
 document
     .getElementById("btnCerrarSesion")
