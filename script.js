@@ -178,18 +178,29 @@ async function agregarPublicacion() {
 
     if (archivo) {
 
-        let reader = new FileReader();
+    const nombreArchivo = Date.now() + "_" + archivo.name;
 
-        reader.onload = function (e) {
+    const { error } = await supabaseClient.storage
+        .from("publicaciones")
+        .upload(nombreArchivo, archivo);
 
-            guardar(e.target.result);
-        };
-
-        reader.readAsDataURL(archivo);
-
-    } else {
-        guardar("");
+    if (error) {
+        console.error("Error subiendo imagen:", error);
+        alert("No se pudo subir la imagen.");
+        return;
     }
+
+    const { data } = supabaseClient.storage
+        .from("publicaciones")
+        .getPublicUrl(nombreArchivo);
+
+    guardar(data.publicUrl);
+
+} else {
+
+    guardar("");
+
+}
 
     async function guardar(img) {
 
