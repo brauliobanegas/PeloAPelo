@@ -128,7 +128,7 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
     return;
 }
 
-    for (let p of [...publicaciones].reverse()) {
+    for (let p of publicaciones) {
 
         if (filtro && !p.titulo.toLowerCase().includes(filtro.toLowerCase())) continue;
 
