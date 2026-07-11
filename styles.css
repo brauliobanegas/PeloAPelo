@@ -45,6 +45,28 @@ body{
 
 }
 
+.headerSuperior{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.accionesUsuario{
+
+    display:flex;
+
+    gap:10px;
+
+    align-items:center;
+
+    flex-wrap:nowrap;
+
+}
+
 .logo{
 
     margin:0;
@@ -580,6 +602,32 @@ body{
    RESPONSIVE
 ==========================================================*/
 
+.headerSuperior{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    text-align:left;
+
+}
+
+.logo{
+
+    text-align:left;
+
+}
+
+.accionesUsuario{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
 @media (max-width:768px){
 
 
@@ -590,11 +638,21 @@ body{
     }
 
 
-    .encabezado{
+ .encabezado{
 
-        padding:18px;
+    padding:18px;
 
-    }
+}
+
+
+
+.accionesUsuario button{
+
+    padding:8px 14px;
+
+    cursor:pointer;
+
+}
 
 
     .logo{
@@ -803,3 +861,32 @@ body{
 
 }
 
+/* ==========================
+   HEADER
+========================== */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: #2e7d32;
+    color: white;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.usuario {
+    display: flex;
+    gap: 10px;
+}
+
+.usuario button {
+    padding: 8px 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}

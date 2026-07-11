@@ -2,14 +2,47 @@
 
     const { data } = await supabaseClient.auth.getSession();
 
-    if (!data.session) {
-        window.location.href = "login.html";
-        return;
+    const formulario = document.getElementById("contenedorFormulario");
+    const btnFormulario = document.getElementById("btnNuevaPublicacion");
+   
+    if (data.session) {
+
+        btnFormulario.style.display = "inline-block";
+        formulario.style.display = "none";
+        document.getElementById("btnLogin").style.display = "none";
+        document.getElementById("btnRegistro").style.display = "none";
+
+        document.getElementById("btnPerfil").style.display = "inline-block";
+        document.getElementById("btnCerrarSesion").style.display = "inline-block";
+
+        btnFormulario.addEventListener("click", () => {
+
+            if (formulario.style.display !== "block") {
+
+                formulario.style.display = "block";
+                btnFormulario.textContent = "➖ Ocultar formulario";
+
+            } else {
+
+                formulario.style.display = "none";
+                btnFormulario.textContent = "➕ Publicar un objeto";
+
+            }
+
+});
+    } else {
+
+        btnFormulario.style.display = "none";
+        formulario.style.display = "none";
+        document.getElementById("btnLogin").style.display = "inline-block";
+        document.getElementById("btnRegistro").style.display = "inline-block";
+
+        document.getElementById("btnPerfil").style.display = "none";
+        document.getElementById("btnCerrarSesion").style.display = "none";
+
     }
 
-
 })();
-
 
 async function cargarPublicacionesSupabase() {
 
@@ -216,6 +249,8 @@ async function agregarPublicacion() {
 
         publicaciones = await cargarPublicacionesSupabase();
         renderizarPublicaciones();
+        document.getElementById("contenedorFormulario").style.display = "none";
+        document.getElementById("btnNuevaPublicacion").textContent = "➕ Publicar un objeto";
         contenedor.style.transition = "opacity 0.15s ease";
         contenedor.style.opacity = "0.5";
 
@@ -311,6 +346,18 @@ function editarPublicacion(id) {
 document.getElementById("btnPublicar")
     .addEventListener("click", agregarPublicacion);
 
+document.getElementById("btnLogin")
+    .addEventListener("click", () => {
+
+    window.location.href = "login.html";
+
+});
+document.getElementById("btnRegistro")
+.addEventListener("click", () => {
+
+    window.location.href = "registro.html";
+
+});
 
 
 document
@@ -335,6 +382,21 @@ document
     if (!session) {
         return null;
     }
+
+    document.getElementById("btnLogin")
+    .addEventListener("click", () => {
+
+        alert("Botón ingresar funcionando");
+
+    });
+
+
+    document.getElementById("btnRegistro")
+    .addEventListener("click", () => {
+
+        window.location.href = "registro.html";
+
+    });
 
     const { data, error } = await supabaseClient
         .from("usuarios")

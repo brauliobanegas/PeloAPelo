@@ -10,13 +10,36 @@
 
 <header class="encabezado">
 
-    <button id="btnCerrarSesion">Cerrar sesión</button>
+    <div class="headerSuperior">
 
     <h1 class="logo">
         <span class="logoTrueque">Trueque</span><span class="logoAR">AR</span>
     </h1>
 
-    <p>Segundas vidas. Nuevos tesoros</p>
+    <div class="accionesUsuario">
+
+        <button id="btnLogin">Ingresar</button>
+
+        <button id="btnRegistro">Registrarse</button>
+
+        <button id="btnPerfil" style="display:none;">
+            Mi Perfil
+        </button>
+
+        <button id="btnCerrarSesion" style="display:none;">
+            Cerrar sesión
+        </button>
+        <button id="btnNuevaPublicacion">
+            ➕ Publicar un objeto
+        </button>
+
+    </div>
+
+</button>
+
+</div>
+
+<p>Segundas vidas. Nuevos tesoros</p>
 
 </header>
 
@@ -80,7 +103,9 @@
      FORMULARIO
 ========================== -->
 
-<section class="formulario">
+<!-- Botón movido al header -->
+<div id="contenedorFormulario">
+<section class="formulario" id="formularioPublicacion">
 
     <h2>Nueva publicación</h2>
 
@@ -117,6 +142,7 @@
     <button id="btnPublicar">Publicar</button>
 
 </section>
+</div>
 
 <!-- ==========================
      MODAL
@@ -145,7 +171,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
-<script src="script.js"></script>
+<script defer src="script.js"></script>
 
 </body>
 
