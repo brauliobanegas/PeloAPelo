@@ -38,5 +38,59 @@
     document.getElementById("telefonoUsuario").textContent =
         usuario.telefono || "No cargado";
 
+const { data: misPublicaciones, error: errorPublicaciones } =
+        await supabaseClient
+            .from("publicaciones")
+            .select("*")
+            .eq("usuario_id", usuario.id);
+
+
+if (errorPublicaciones) {
+
+    console.error("Error cargando publicaciones:", errorPublicaciones);
+    return;
+
+}
+
+
+const contenedorMisPublicaciones =
+        document.getElementById("misPublicaciones");
+
+
+if (misPublicaciones.length === 0) {
+
+    contenedorMisPublicaciones.textContent =
+        "Todavía no tenés publicaciones.";
+
+} else {
+
+    contenedorMisPublicaciones.innerHTML = "";
+
+    misPublicaciones.forEach(pub => {
+
+        contenedorMisPublicaciones.innerHTML += `
+
+            <div>
+
+                <h4>${pub.titulo}</h4>
+
+                <p>Estado: ${pub.estado}</p>
+
+                <p>Categoría: ${pub.categoria}</p>
+
+            </div>
+
+        `;
+
+    });
+
+}
 
 })();
+
+document.getElementById("btnVolverInicio")
+.addEventListener("click", () => {
+
+    window.location.href = "index.html";
+
+});
