@@ -105,6 +105,7 @@ chips.forEach(chip => {
    DATOS
 ----------------------------*/
 let publicaciones = [];
+let usuarioActualId = null;
 
 /* ---------------------------
    RENDER
@@ -134,6 +135,7 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 
         if (categoria && p.categoria !== categoria) continue;
 
+            
         contenedor.innerHTML += `
         <div class="tarjeta">
             <img src="${p.imagen}" width="200">
@@ -146,10 +148,26 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
             <p><strong>Busca:</strong> ${p.busca}</p>
 
             <div class="acciones">
-            <button class="btn-ver" onclick="verPublicacion(${p.id})">Ver</button>
-            <button class="btn-editar" onclick="editarPublicacion(${p.id})">Editar</button>
-            <button class="btn-eliminar" onclick="eliminarPublicacion(${p.id})">Eliminar</button>
-            </div>
+
+                <button class="btn-ver" onclick="verPublicacion(${p.id})">
+                    Ver
+                </button>
+
+            ${
+                p.usuario_id === usuarioActualId
+                ? `
+                    <button class="btn-editar" onclick="editarPublicacion(${p.id})">
+                        Editar
+                    </button>
+
+                    <button class="btn-eliminar" onclick="eliminarPublicacion(${p.id})">
+                        Eliminar
+                    </button>
+                `
+                : ""
+            }
+
+</div>
         </div>
         `;
     }
@@ -232,7 +250,7 @@ async function agregarPublicacion() {
 
         } else {
 
-            const usuarioId = await obtenerUsuarioActual();
+            usuarioActualId = await obtenerUsuarioActual();
 
             if (!usuarioId) {
                 alert("No hay usuario autenticado.");
@@ -347,6 +365,8 @@ function editarPublicacion(id) {
    INIT
 ----------------------------*/
 (async () => {
+
+    usuarioActualId = await obtenerUsuarioActual();
 
     publicaciones = await cargarPublicacionesSupabase();
 
