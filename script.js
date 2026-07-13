@@ -193,6 +193,7 @@ async function agregarPublicacion() {
     let estado = document.getElementById("estado").value;
     let categoria = document.getElementById("categoria").value;
     let busca = document.getElementById("busca").value;
+    let descripcion = document.getElementById("descripcion").value;
     let archivo = document.getElementById("imagen").files[0];
 
     if (!titulo || !estado || !categoria || !busca) {
@@ -234,7 +235,8 @@ async function agregarPublicacion() {
         titulo,
         estado,
         categoria,
-        busca
+        busca,
+        descripcion
     };
 
     if (img) {
@@ -275,6 +277,7 @@ async function agregarPublicacion() {
                     estado,
                     categoria,
                     busca,
+                    descripcion,
                     imagen: img || "imagenes/default.jpg"
                 });
 
@@ -309,6 +312,7 @@ async function agregarPublicacion() {
         document.getElementById("estado").value = "";
         document.getElementById("categoria").value = "";
         document.getElementById("busca").value = "";
+        document.getElementById("descripcion").value = "";
         document.getElementById("imagen").value = "";
         btnPublicar.disabled = false;
         btnPublicar.textContent = "Publicar";
@@ -371,6 +375,7 @@ function editarPublicacion(id) {
     document.getElementById("estado").value = pub.estado;
     document.getElementById("categoria").value = pub.categoria;
     document.getElementById("busca").value = pub.busca;
+    document.getElementById("descripcion").value = pub.descripcion || "";
 
     editandoId = id;
 }

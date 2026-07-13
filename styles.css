@@ -144,7 +144,8 @@ body{
 }
 
 .formulario input,
-.formulario select{
+.formulario select,
+.formulario textarea{
 
     width:100%;
 
@@ -163,7 +164,8 @@ body{
 }
 
 .formulario input:focus,
-.formulario select:focus{
+.formulario select:focus,
+.formulario textarea:focus{
 
     outline:none;
 
