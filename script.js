@@ -182,7 +182,13 @@ let editandoId = null;
    AGREGAR / EDITAR (CORREGIDO)
 ----------------------------*/
 async function agregarPublicacion() {
+    const btnPublicar = document.getElementById("btnPublicar");
 
+    if (btnPublicar.disabled) return;
+
+    btnPublicar.disabled = true;
+    btnPublicar.textContent = "Publicando...";
+    
     let titulo = document.getElementById("titulo").value;
     let estado = document.getElementById("estado").value;
     let categoria = document.getElementById("categoria").value;
@@ -243,6 +249,8 @@ async function agregarPublicacion() {
     if (error) {
         console.error("Error actualizando publicación:", error);
         alert("No se pudo actualizar la publicación.");
+        btnPublicar.disabled = false;
+        btnPublicar.textContent = "Publicar";
         return;
     }
 
@@ -252,25 +260,29 @@ async function agregarPublicacion() {
 
             usuarioActualId = await obtenerUsuarioActual();
 
-            if (!usuarioId) {
+            if (!usuarioActualId) {
                 alert("No hay usuario autenticado.");
+                btnPublicar.disabled = false;
+                btnPublicar.textContent = "Publicar";
                 return;
             }
-            
+
             const { error } = await supabaseClient
                 .from("publicaciones")
                 .insert({
-                    usuario_id: usuarioId,
+                    usuario_id: usuarioActualId,
                     titulo,
                     estado,
                     categoria,
                     busca,
                     imagen: img || "imagenes/default.jpg"
-            });
+                });
 
             if (error) {
                 console.error("Error guardando publicación:", error);
                 alert("No se pudo guardar la publicación.");
+                btnPublicar.disabled = false;
+                btnPublicar.textContent = "Publicar";
                 return;
             }
                   
@@ -298,6 +310,8 @@ async function agregarPublicacion() {
         document.getElementById("categoria").value = "";
         document.getElementById("busca").value = "";
         document.getElementById("imagen").value = "";
+        btnPublicar.disabled = false;
+        btnPublicar.textContent = "Publicar";
     }
 }
 
@@ -421,22 +435,7 @@ document
         return null;
     }
 
-    document.getElementById("btnLogin")
-    .addEventListener("click", () => {
-
-        alert("Botón ingresar funcionando");
-
-    });
-
-
-    document.getElementById("btnRegistro")
-    .addEventListener("click", () => {
-
-        window.location.href = "registro.html";
-
-    });
-
-    const { data, error } = await supabaseClient
+       const { data, error } = await supabaseClient
         .from("usuarios")
         .select("id")
         .eq("auth_id", session.user.id)
