@@ -39,6 +39,8 @@
 
         document.getElementById("btnPerfil").style.display = "none";
         document.getElementById("btnCerrarSesion").style.display = "none";
+        document.getElementById("btnCancelarEdicion")
+            .addEventListener("click", cancelarEdicion);
 
     }
 
@@ -137,7 +139,13 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 
             
         contenedor.innerHTML += `
-        <div class="tarjeta">
+        <div class="tarjeta ${editandoId === p.id ? "tarjeta-editando" : ""}">
+
+            ${editandoId === p.id ? `
+                <div class="etiqueta-editando">
+                ✏️ EDITANDO
+                </div>
+            ` : ""}
             <img src="${p.imagen}" width="200">
 
             <span class="badge ${p.estado.toLowerCase()}">${p.estado}</span>
@@ -149,26 +157,47 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 
             <div class="acciones">
 
-                <button class="btn-ver" onclick="verPublicacion(${p.id})">
-                    Ver
-                </button>
+    <button class="btn-ver" onclick="verPublicacion(${p.id})">
+        Ver
+    </button>
 
+    ${
+        p.usuario_id === usuarioActualId
+        ? `
             ${
-                p.usuario_id === usuarioActualId
+                editandoId === p.id
                 ? `
-                    <button class="btn-editar" onclick="editarPublicacion(${p.id})">
-                        Editar
+                    <button class="btn-editar editando" disabled>
+                        ✏️ Editando
                     </button>
 
-                    <button class="btn-eliminar" onclick="eliminarPublicacion(${p.id})">
+                    <button class="btn-eliminar" disabled>
                         Eliminar
                     </button>
                 `
-                : ""
+                : `
+                    <button
+                        class="btn-editar"
+                        onclick="editarPublicacion(${p.id})"
+                        ${editandoId !== null ? "disabled" : ""}
+                    >
+                        Editar
+                    </button>
+
+                    <button
+                        class="btn-eliminar"
+                        onclick="eliminarPublicacion(${p.id})"
+                        ${editandoId !== null ? "disabled" : ""}
+                    >
+                        Eliminar
+                    </button>
+                `
             }
+        `
+        : ""
+    }
 
 </div>
-        </div>
         `;
     }
 }
@@ -295,8 +324,23 @@ async function agregarPublicacion() {
         renderizarPublicaciones();
         document.getElementById("contenedorFormulario").style.display = "none";
         document.getElementById("btnNuevaPublicacion").textContent = "➕ Publicar un objeto";
+        document.getElementById("btnPublicar").textContent =
+            "Publicar";
+        document.getElementById("tituloFormulario").textContent =
+            "Nueva publicación";
+        document.getElementById("tituloFormulario")
+            .classList.remove("editando");
+        document.getElementById("tituloFormulario").textContent =
+            "Nueva publicación";
+        document.getElementById("tituloFormulario")
+            .classList.remove("editando");
+
+        document.getElementById("tituloFormulario")
+            .classList.remove("editando");
         contenedor.style.transition = "opacity 0.15s ease";
         contenedor.style.opacity = "0.5";
+        document.getElementById("btnCancelarEdicion").style.display =
+            "none";
 
         setTimeout(() => {
             contenedor.style.opacity = "1";
@@ -378,6 +422,28 @@ function editarPublicacion(id) {
     document.getElementById("descripcion").value = pub.descripcion || "";
 
     editandoId = id;
+    renderizarPublicaciones();
+    document.getElementById("contenedorFormulario").style.display = "block";
+    document.getElementById("tituloFormulario").textContent =
+        "Editando publicación";
+
+    document.getElementById("btnNuevaPublicacion").textContent =
+        "➖ Ocultar formulario";
+    
+    document.getElementById("btnPublicar").textContent =
+        "💾 Guardar cambios";
+
+    document.getElementById("btnPublicar")
+        .classList.add("editando");
+
+    document.getElementById("btnCancelarEdicion").style.display =
+        "block";
+
+    document.getElementById("tituloFormulario").textContent =
+        "Editando publicación";
+
+    document.getElementById("tituloFormulario")
+        .classList.add("editando");
 }
 
 /* ---------------------------
@@ -395,6 +461,9 @@ function editarPublicacion(id) {
 
 document.getElementById("btnPublicar")
     .addEventListener("click", agregarPublicacion);
+
+document.getElementById("btnCancelarEdicion")
+    .addEventListener("click", cancelarEdicion);
 
 document.getElementById("btnLogin")
     .addEventListener("click", () => {
@@ -452,4 +521,37 @@ document
     }
 
     return data.id;
+}
+
+function cancelarEdicion() {
+
+    editandoId = null;
+
+    document.getElementById("titulo").value = "";
+    document.getElementById("estado").value = "";
+    document.getElementById("categoria").value = "";
+    document.getElementById("busca").value = "";
+    document.getElementById("descripcion").value = "";
+    document.getElementById("imagen").value = "";
+
+    document.getElementById("contenedorFormulario").style.display =
+        "none";
+
+    document.getElementById("btnNuevaPublicacion").textContent =
+        "➕ Publicar un objeto";
+
+    document.getElementById("btnPublicar").textContent =
+        "Publicar";
+
+    document.getElementById("btnPublicar")
+        .classList.remove("editando");
+
+    document.getElementById("btnCancelarEdicion").style.display =
+        "none";
+
+    document.getElementById("tituloFormulario").textContent =
+        "Nueva publicación";
+
+    renderizarPublicaciones();
+
 }

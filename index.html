@@ -107,7 +107,7 @@
 <div id="contenedorFormulario">
 <section class="formulario" id="formularioPublicacion">
 
-    <h2>Nueva publicación</h2>
+    <h2 id="tituloFormulario">Nueva publicación</h2>
 
     <label for="titulo">Título</label>
     <input id="titulo" placeholder="Ej: Bicicleta rodado 29">
@@ -145,7 +145,12 @@
     <label for="imagen">Imagen</label>
     <input type="file" id="imagen" accept="image/*">
 
-    <button id="btnPublicar">Publicar</button>
+    <button id="btnPublicar">
+        Publicar
+    </button>
+    <button id="btnCancelarEdicion" style="display:none;">
+        ❌ Cancelar edición
+    </button>
 
 </section>
 </div>
