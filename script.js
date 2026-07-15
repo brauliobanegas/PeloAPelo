@@ -414,8 +414,17 @@ async function agregarPublicacion() {
         document.getElementById("modalEstado").textContent = "Estado: " + pub.estado;
         document.getElementById("modalCategoria").textContent = "Categoría: " + pub.categoria;
         document.getElementById("modalBusca").textContent = "Busca: " + pub.busca;
+        document.getElementById("modalDescripcion").textContent =
+            "Descripción: " + (pub.descripcion || "Sin descripción");
+
+        document.getElementById("modalFecha").textContent =
+            "📅 Publicado: " + formatoFecha(pub.created_at);
 
         document.getElementById("modal").style.display = "flex";
+
+        document.getElementById("btnCambiar").onclick = function() {
+            alert("Esta función estará disponible próximamente.");
+};
 }
 
 document.getElementById("cerrarModal").addEventListener("click", function () {
