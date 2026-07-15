@@ -1043,3 +1043,9 @@ body{
     color:#198754 !important;
 
 }
+
+.fecha-publicacion {
+    font-size: 12px;
+    color: #777;
+    margin-top: 8px;
+}

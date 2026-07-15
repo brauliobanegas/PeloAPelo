@@ -120,6 +120,18 @@ let usuarioActualId = null;
 /* ---------------------------
    RENDER
 ----------------------------*/
+function formatoFecha(fecha) {
+
+    const f = new Date(fecha);
+
+    return f.toLocaleDateString("es-AR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+    });
+
+}
+
 function renderizarPublicaciones(filtro = "", categoria = "") {
 
     contenedor.innerHTML = "";
@@ -165,6 +177,10 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
             <p><strong>Estado:</strong> ${p.estado}</p>
             <p><strong>Categoría:</strong> ${p.categoria}</p>
             <p><strong>Busca:</strong> ${p.busca}</p>
+
+            <p class="fecha-publicacion">
+                📅 Publicado: ${formatoFecha(p.created_at)}
+            </p>
 
             <div class="acciones">
 
@@ -332,6 +348,19 @@ async function agregarPublicacion() {
         }
 
         publicaciones = await cargarPublicacionesSupabase();
+
+        function formatoFecha(fecha) {
+
+            const f = new Date(fecha);
+
+            return f.toLocaleDateString("es-AR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            });
+
+}
+
         renderizarPublicaciones();
         document.getElementById("contenedorFormulario").style.display = "none";
         document.getElementById("btnNuevaPublicacion").textContent = "➕ Publicar un objeto";
