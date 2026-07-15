@@ -58,7 +58,15 @@ async function cargarPublicacionesSupabase() {
         return [];
     }
 
-    return data;
+    const hace30Dias = new Date();
+
+    hace30Dias.setDate(hace30Dias.getDate() - 30);
+
+    return data.filter(pub => {
+
+        return new Date(pub.created_at) >= hace30Dias;
+
+    });
 }
 
 let contenedor = document.getElementById("publicaciones");
@@ -146,7 +154,10 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
                 ✏️ EDITANDO
                 </div>
             ` : ""}
-            <img src="${p.imagen}" width="200">
+            <img
+                src="${p.imagen || 'imagenes/logo.png'}"
+                class="${!p.imagen || p.imagen.includes('logo.png') ? 'logo-publicacion' : ''}"
+            >
 
             <span class="badge ${p.estado.toLowerCase()}">${p.estado}</span>
             <h2>${p.titulo}</h2>
@@ -307,7 +318,7 @@ async function agregarPublicacion() {
                     categoria,
                     busca,
                     descripcion,
-                    imagen: img || "imagenes/default.jpg"
+                    imagen: img || "imagenes/logo.png"
                 });
 
             if (error) {
