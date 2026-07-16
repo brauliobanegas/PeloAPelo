@@ -42,7 +42,7 @@ document
         return;
 }
 
-        mensaje.textContent = "Usuario registrado correctamente.";
+        mensaje.textContent = "✅ Cuenta creada correctamente. Revisá tu email para confirmar tu cuenta.";
 
         console.log("Usuario Auth:", data);
 

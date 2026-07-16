@@ -21,6 +21,10 @@
 
                 formulario.style.display = "block";
                 btnFormulario.textContent = "➖ Ocultar formulario";
+                formulario.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
 
             } else {
 
@@ -473,6 +477,10 @@ function editarPublicacion(id) {
     editandoId = id;
     renderizarPublicaciones();
     document.getElementById("contenedorFormulario").style.display = "block";
+    document.getElementById("contenedorFormulario").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+    });
     document.getElementById("tituloFormulario").textContent =
         "Editando publicación";
 

@@ -9,55 +9,81 @@
 
 <body>
 
-    <h1>Crear cuenta en TruequeAR</h1>
+<div class="contenedorCuenta">
 
-    <form id="formRegistro">
+    <div class="marcaCuenta">
 
-        <label>
-            Nombre:
-            <input type="text" id="nombre" required>
-        </label>
+        <h1>
+            <span class="logoTrueque">Trueque</span><span class="logoAR">AR</span>
+        </h1>
 
-        <br>
+        <p>
+            Segundas vidas. Nuevos tesoros
+        </p>
 
-        <label>
-            Email:
-            <input type="email" id="email" required>
-        </label>
-
-        <br>
-
-        <label>
-            Contraseña:
-            <input type="password" id="password" required>
-        </label>
-
-        <br>
-
-        <label>
-            Teléfono:
-            <input type="text" id="telefono">
-        </label>
-
-        <br><br>
-
-        <button type="submit">
-            Registrarme
-        </button>
-
-    </form>
-
-    <p id="mensaje"></p>
+    </div>
 
 
-    <!-- Librería Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <div class="tarjetaCuenta">
 
-    <!-- Conexión Supabase -->
-    <script src="supabase.js"></script>
+        <h2>Crear cuenta</h2>
 
-    <!-- Lógica registro -->
-    <script src="registro.js"></script>
+
+        <form id="formRegistro">
+
+            <label>
+                Nombre:
+                <input type="text" id="nombre" required>
+            </label>
+
+
+            <label>
+                Email:
+                <input type="email" id="email" required>
+            </label>
+
+
+            <label>
+                Contraseña:
+                <input type="password" id="password" required>
+            </label>
+
+
+            <label>
+                Teléfono:
+                <input type="text" id="telefono">
+            </label>
+
+
+            <button type="submit">
+                Registrarme
+            </button>
+
+        </form>
+
+
+        <p id="mensaje"></p>
+
+        <p class="enlaceCuenta">
+            ¿Ya tenés cuenta?
+            <a href="login.html">Ingresar</a>
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- Librería Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase.js"></script>
+
+<script src="registro.js"></script>
+
 
 </body>
 </html>
+

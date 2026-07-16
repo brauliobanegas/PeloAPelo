@@ -7,37 +7,70 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<div class="contenedorCuenta">
 
-    <h1>Iniciar sesión</h1>
 
-    <form id="formLogin">
+    <div class="marcaCuenta">
 
-        <label>
-            Email:
-            <input type="email" id="email" required>
-        </label>
+        <h1>
+            <span class="logoTrueque">Trueque</span><span class="logoAR">AR</span>
+        </h1>
 
-        <br>
+        <p>
+            Segundas vidas. Nuevos tesoros
+        </p>
 
-        <label>
-            Contraseña:
-            <input type="password" id="password" required>
-        </label>
+    </div>
 
-        <br><br>
 
-        <button type="submit">
-            Ingresar
-        </button>
 
-    </form>
+    <div class="tarjetaCuenta">
 
-    <p id="mensaje"></p>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase.js"></script>
-    <script src="login.js"></script>
+        <h2>Ingresar</h2>
 
-</body>
+
+        <form id="formLogin">
+
+
+            <label>
+                Email:
+                <input type="email" id="email" required>
+            </label>
+
+
+            <label>
+                Contraseña:
+                <input type="password" id="password" required>
+            </label>
+
+
+            <button type="submit">
+                Ingresar
+            </button>
+
+
+        </form>
+
+
+        <p id="mensaje"></p>
+
+        <p class="enlaceCuenta">
+            ¿No tenés cuenta?
+            <a href="registro.html">Registrate</a>
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase.js"></script>
+
+<script src="login.js"></script>
 </html>

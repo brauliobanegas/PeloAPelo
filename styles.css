@@ -35,7 +35,7 @@ body{
 
     text-align:center;
 
-    padding:25px;
+    padding:18px;
 
     margin-bottom:30px;
 
@@ -59,11 +59,11 @@ body{
 
     display:flex;
 
+    flex-direction:column;
+
     gap:10px;
 
-    align-items:center;
-
-    flex-wrap:nowrap;
+    align-items:flex-end;
 
 }
 
@@ -71,13 +71,9 @@ body{
 
     margin:0;
 
-    font-size:72px;
+    font-size:2.2rem;
 
-    font-weight:900;
-
-    letter-spacing:-3px;
-
-    text-transform:none;
+    line-height:1;
 
 }
 
@@ -155,9 +151,9 @@ body{
 
     border:1px solid #d0d7de;
 
-    border-radius:10px;
+    border-radius:15px;
 
-    font-size:15px;
+    font-size:10px;
 
     transition:.2s;
 
@@ -268,7 +264,7 @@ body{
 
     background:transparent;
 
-    padding:14px 0;
+    padding:8px 12px;
 
     font-size:16px;
 
@@ -310,9 +306,9 @@ body{
 
     border:2px solid #0d6efd;
 
-    border-radius:25px;
+    border-radius:18px;
 
-    padding:8px 16px;
+    padding:6px 12px;
 
     font-size:14px;
 
@@ -762,7 +758,23 @@ body{
 
  .encabezado{
 
+    background:linear-gradient(90deg,#6EC6FF,#2196F3,#6EC6FF);
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    text-align:center;
+
     padding:18px;
+
+    margin-bottom:30px;
+
+    border-radius:12px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
 
 }
 
@@ -1055,4 +1067,402 @@ body{
     font-size: 12px;
     color: #777;
     margin-top: 8px;
+}
+
+/* ==========================
+   MODO CELULAR
+========================== */
+
+@media (max-width: 768px){
+
+    #publicaciones{
+
+        grid-template-columns:1fr;
+
+        gap:18px;
+
+    }
+
+    .tarjeta img{
+
+        height:220px;
+
+    }
+
+    .tarjeta h2{
+
+        font-size:22px;
+
+    }
+
+    .tarjeta p{
+
+        font-size:16px;
+
+    }
+
+    .acciones button{
+
+        font-size:16px;
+
+        padding:12px;
+
+    }
+
+}
+
+.marca{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.logoPrincipal{
+
+    width:70px;
+
+    height:70px;
+
+    object-fit:contain;
+
+}
+
+.eslogan{
+
+    margin-top:6px;
+
+    margin-bottom:0;
+
+    font-size:13px;
+
+    color:white;
+
+    text-align:center;
+
+}
+
+.marca div{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+@media (max-width: 768px){
+
+    .headerSuperior{
+
+        flex-direction:column;
+
+        align-items:center;
+
+        gap:15px;
+
+    }
+
+    .accionesUsuario{
+
+        width:100%;
+
+        display:flex;
+
+        flex-direction:row;
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:8px;
+
+}
+
+}
+
+/* Estilo general de botones del header */
+
+.accionesUsuario button{
+
+    border:none;
+    border-radius:18px;
+    padding:2px 14px;
+    font-size:14px;
+    cursor:pointer;
+    transition:0.25s ease;
+    background:#f2f2f2;
+    color:#333;
+
+}
+
+
+/* Botón principal */
+
+#btnNuevaPublicacion{
+
+    padding:7px 18px;
+    border-radius:22px;
+    background:#2e8b57;
+    color:white;
+    font-weight:bold;
+    font-size:15px;
+
+}
+
+.accionesUsuario button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+/* Botón principal */
+
+#btnNuevaPublicacion{
+
+    background:#2e8b57;
+    color:white;
+    font-weight:bold;
+
+}
+
+
+#btnNuevaPublicacion:hover{
+
+    background:#247447;
+
+}
+
+
+/* Botones de acceso */
+
+#btnLogin,
+#btnRegistro{
+
+    border:1px solid #2e8b57;
+    color:#2e8b57;
+    background:white;
+
+}
+
+
+#btnLogin:hover,
+#btnRegistro:hover{
+
+    background:#eaf6ef;
+
+}
+
+
+/* Perfil y cerrar sesión */
+
+#btnPerfil,
+#btnCerrarSesion{
+
+    background:#e9eef5;
+
+}
+
+/* Fondo con marca de agua para pantallas de cuenta */
+
+.contenedorCuenta{
+
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:center;
+    padding-top:60px;
+    position:relative;
+    overflow:hidden;
+
+}
+
+.contenedorCuenta::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:url("imagenes/logo.png");
+
+    background-size:90px;
+
+    background-repeat:repeat;
+
+    opacity:0.07;
+
+    z-index:0;
+
+}
+
+
+.marcaCuenta,
+.tarjetaCuenta{
+
+    position:relative;
+    z-index:1;
+
+}
+
+.marcaCuenta{
+
+    text-align:center;
+    margin-bottom:25px;
+
+}
+
+
+.marcaCuenta h1{
+
+    margin:0;
+    font-size:42px;
+
+}
+
+
+.marcaCuenta p{
+
+    margin-top:5px;
+    font-size:16px;
+    text-align:center;
+
+}
+
+/* Formulario de cuenta */
+
+#formRegistro,
+#formLogin{
+
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+
+}
+
+
+#formRegistro label,
+#formLogin label{
+
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+
+}
+
+
+#formRegistro input,
+#formLogin input{
+
+    width:100%;
+    box-sizing:border-box;
+
+}
+
+/* Tarjeta de registro/login */
+
+.tarjetaCuenta{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:22px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,0.12);
+
+    width:350px;
+
+    max-width:90%;
+
+}
+
+.tarjetaCuenta h2{
+
+    text-align:center;
+
+    margin-top:0;
+
+    margin-bottom:25px;
+
+}
+
+.tarjetaCuenta input{
+
+    border:1px solid #ccc;
+
+    border-radius:12px;
+
+    padding:10px 12px;
+
+    font-size:15px;
+
+}
+
+#formRegistro button,
+#formLogin button{
+
+    background:#2e8b57;
+
+    color:white;
+
+    border:none;
+
+    border-radius:22px;
+
+    padding:11px 20px;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.25s ease;
+
+}
+
+
+#formRegistro button:hover,
+#formLogin button:hover{
+
+    background:#247447;
+
+    transform:translateY(-2px);
+
+}
+
+.enlaceCuenta{
+
+    text-align:center;
+
+    margin-top:20px;
+
+    font-size:14px;
+
+}
+
+
+.enlaceCuenta a{
+
+    color:#2e8b57;
+
+    font-weight:bold;
+
+    text-decoration:none;
+
+}
+
+
+.enlaceCuenta a:hover{
+
+    text-decoration:underline;
+
 }
