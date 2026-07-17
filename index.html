@@ -180,7 +180,7 @@
 
 <div id="modal" class="modal">
 
-    <div class="modal-contenido">
+        <div class="modal-contenido">
 
         <span id="cerrarModal">&times;</span>
 
@@ -207,6 +207,37 @@
 
 </div>
 
+<div id="modalAyuda" class="modal">
+
+    <div class="modal-contenido">
+
+        <span id="cerrarModalAyuda">&times;</span>
+
+        <h2>Ayuda y sugerencias</h2>
+
+        <label for="asuntoAyuda">Asunto</label>
+
+        <input
+            type="text"
+            id="asuntoAyuda"
+            placeholder="Ej: Problema al publicar">
+
+        <label for="mensajeAyuda">Mensaje</label>
+
+        <textarea
+            id="mensajeAyuda"
+            rows="6"
+            placeholder="Escribí tu consulta o sugerencia..."></textarea>
+
+        <button id="btnEnviarAyuda">
+            Enviar mensaje
+        </button>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>

@@ -121,6 +121,59 @@ chips.forEach(chip => {
 let publicaciones = [];
 let usuarioActualId = null;
 
+const btnAyuda = document.getElementById("btnAyuda");
+const modalAyuda = document.getElementById("modalAyuda");
+const cerrarModalAyuda = document.getElementById("cerrarModalAyuda");
+const btnEnviarAyuda = document.getElementById("btnEnviarAyuda");
+
+btnAyuda.addEventListener("click", () => {
+    modalAyuda.style.display = "flex";
+});
+
+cerrarModalAyuda.addEventListener("click", () => {
+    modalAyuda.style.display = "none";
+});
+
+window.addEventListener("click", (e) => {
+    if (e.target === modalAyuda) {
+        modalAyuda.style.display = "none";
+    }
+});
+
+btnEnviarAyuda.addEventListener("click", enviarMensajeAyuda);
+
+async function enviarMensajeAyuda() {
+
+    const asunto = document.getElementById("asuntoAyuda").value;
+    const mensaje = document.getElementById("mensajeAyuda").value;
+
+    const { data } = await supabaseClient.auth.getUser();
+
+    const usuario = data.user;
+
+    const { error } = await supabaseClient
+        .from("mensajes_contacto")
+        .insert([
+            {
+                usuario_id: usuario.id,
+                asunto: asunto,
+                mensaje: mensaje
+            }
+        ]);
+
+    if (error) {
+
+        console.error(error);
+
+        alert("Ocurrió un error al enviar el mensaje.");
+
+        return;
+
+    }
+
+    alert("Mensaje enviado correctamente.");
+}
+
 /* ---------------------------
    RENDER
 ----------------------------*/
