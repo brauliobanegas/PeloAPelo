@@ -7,7 +7,7 @@
    
     if (data.session) {
 
-        btnFormulario.style.display = "inline-block";
+        btnFormulario.style.display = "block";
         formulario.style.display = "none";
         document.getElementById("btnLogin").style.display = "none";
         document.getElementById("btnRegistro").style.display = "none";
@@ -163,7 +163,10 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 
             
         contenedor.innerHTML += `
-        <div class="tarjeta ${editandoId === p.id ? "tarjeta-editando" : ""}">
+        <div
+            class="tarjeta ${editandoId === p.id ? "tarjeta-editando" : ""}"
+            onclick="verPublicacion(${p.id})"
+        >
 
             ${editandoId === p.id ? `
                 <div class="etiqueta-editando">
@@ -188,8 +191,10 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 
             <div class="acciones">
 
-    <button class="btn-ver" onclick="verPublicacion(${p.id})">
-        Ver
+    <button
+        class="btn-ver"
+        onclick="event.stopPropagation(); verPublicacion(${p.id})">
+            Ver
     </button>
 
     ${
@@ -209,7 +214,7 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
                 : `
                     <button
                         class="btn-editar"
-                        onclick="editarPublicacion(${p.id})"
+                        onclick="event.stopPropagation(); editarPublicacion(${p.id})"
                         ${editandoId !== null ? "disabled" : ""}
                     >
                         Editar
@@ -217,7 +222,7 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 
                     <button
                         class="btn-eliminar"
-                        onclick="eliminarPublicacion(${p.id})"
+                        onclick="event.stopPropagation(); eliminarPublicacion(${p.id})"
                         ${editandoId !== null ? "disabled" : ""}
                     >
                         Eliminar
@@ -426,6 +431,18 @@ async function agregarPublicacion() {
 
         document.getElementById("modal").style.display = "flex";
 
+        const btnCambiar = document.getElementById("btnCambiar");
+
+        if (pub.usuario_id === usuarioActualId) {
+
+            btnCambiar.style.display = "none";
+
+        } else {
+
+            btnCambiar.style.display = "block";
+
+}
+
         document.getElementById("btnCambiar").onclick = function() {
             alert("Esta función estará disponible próximamente.");
 };
@@ -454,6 +471,8 @@ async function eliminarPublicacion(id) {
         alert("No se pudo eliminar la publicación.");
         return;
     }
+
+    document.getElementById("modal").style.display = "none";
 
     publicaciones = await cargarPublicacionesSupabase();
     renderizarPublicaciones();
