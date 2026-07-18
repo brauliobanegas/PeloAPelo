@@ -126,6 +126,22 @@ const modalAyuda = document.getElementById("modalAyuda");
 const cerrarModalAyuda = document.getElementById("cerrarModalAyuda");
 const btnEnviarAyuda = document.getElementById("btnEnviarAyuda");
 
+const toast = document.getElementById("toast");
+
+function mostrarToast(mensaje){
+
+    toast.textContent = mensaje;
+
+    toast.classList.add("mostrar");
+
+    setTimeout(() => {
+
+        toast.classList.remove("mostrar");
+
+    }, 2500);
+
+}
+
 btnAyuda.addEventListener("click", () => {
     modalAyuda.style.display = "flex";
 });
@@ -143,6 +159,8 @@ window.addEventListener("click", (e) => {
 btnEnviarAyuda.addEventListener("click", enviarMensajeAyuda);
 
 async function enviarMensajeAyuda() {
+    btnEnviarAyuda.disabled = true;
+    btnEnviarAyuda.textContent = "Enviando...";
 
     const asunto = document.getElementById("asuntoAyuda").value;
     const mensaje = document.getElementById("mensajeAyuda").value;
@@ -171,7 +189,14 @@ async function enviarMensajeAyuda() {
 
     }
 
-    alert("Mensaje enviado correctamente.");
+    
+    mostrarToast("✅ Mensaje enviado correctamente");
+
+    document.getElementById("asuntoAyuda").value = "";
+    document.getElementById("mensajeAyuda").value = "";
+    modalAyuda.style.display = "none";
+    btnEnviarAyuda.disabled = false;
+    btnEnviarAyuda.textContent = "Enviar mensaje";
 }
 
 /* ---------------------------
