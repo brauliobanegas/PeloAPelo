@@ -1820,3 +1820,70 @@ body{
     margin:4px 0;
 
 }
+
+#btnEditarPerfil{
+
+    display:block;
+
+    margin:20px auto;
+
+    padding:10px 25px;
+
+    border:none;
+
+    border-radius:22px;
+
+    background:#2e8b57;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+#btnGuardarPerfil{
+
+    display:block;
+
+    margin:15px auto 10px;
+
+    padding:10px 25px;
+
+    border:none;
+
+    border-radius:22px;
+
+    background:#2e8b57;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+#btnCancelarPerfil{
+
+    display:block;
+
+    margin:10px auto;
+
+    padding:10px 25px;
+
+    border:none;
+
+    border-radius:22px;
+
+    background:#777;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
