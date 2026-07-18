@@ -544,9 +544,15 @@ body{
 
 .btn-ver{
 
-    background:#0d6efd;
+    background:#2e8b57;
 
     color:white;
+
+    font-weight:bold;
+
+    padding:10px 25px;
+
+    border-radius:22px;
 
 }
 
@@ -555,9 +561,11 @@ body{
 
 .btn-editar{
 
-    background:#ffc107;
+     background:#e9ecef;
 
-    color:black;
+    color:#333;
+
+    font-size:14px;
 
 }
 
@@ -602,9 +610,11 @@ body{
 
 .btn-eliminar{
 
-    background:#dc3545;
+    background:#f8d7da;
 
-    color:white;
+    color:#842029;
+
+    font-size:14px;
 
 }
 
