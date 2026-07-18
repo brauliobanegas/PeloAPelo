@@ -70,13 +70,23 @@ if (misPublicaciones.length === 0) {
 
         contenedorMisPublicaciones.innerHTML += `
 
-            <div>
+            <div class="tarjeta-perfil">
 
-                <h4>${pub.titulo}</h4>
+                
+                <img 
+                    src="${pub.imagen || 'imagenes/logo.png'}"
+                    onclick="abrirImagenPerfil('${pub.imagen}')"
+                >
 
-                <p>Estado: ${pub.estado}</p>
+                <div>
 
-                <p>Categoría: ${pub.categoria}</p>
+                    <h4>${pub.titulo}</h4>
+
+                    <p>Estado: ${pub.estado}</p>
+
+                    <p>Categoría: ${pub.categoria}</p>
+
+                </div>
 
             </div>
 
@@ -92,5 +102,26 @@ document.getElementById("btnVolverInicio")
 .addEventListener("click", () => {
 
     window.location.href = "index.html";
+
+});
+
+function abrirImagenPerfil(imagen){
+
+    const modal = document.getElementById("modalImagenPerfil");
+
+    const img = document.getElementById("imagenPerfilGrande");
+
+    img.src = imagen;
+
+    modal.style.display = "flex";
+
+}
+
+
+document.getElementById("cerrarImagenPerfil")
+.addEventListener("click", () => {
+
+    document.getElementById("modalImagenPerfil")
+    .style.display = "none";
 
 });

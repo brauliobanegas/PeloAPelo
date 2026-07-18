@@ -1,0 +1,1 @@
+- [ ] Evitar mensajes duplicados por doble clic en formularios.
