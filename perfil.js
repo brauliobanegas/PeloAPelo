@@ -97,6 +97,98 @@ if (misPublicaciones.length === 0) {
 
 }
 
+const { data: solicitudes, error: errorSolicitudes } =
+    await supabaseClient
+        .from("solicitudes_intercambio")
+        .select(`
+            *,
+            publicaciones (
+                titulo,
+                imagen
+            )
+        `)
+        .eq("usuario_dueno_id", usuario.id);
+
+
+const contenedorSolicitudes =
+    document.getElementById("solicitudesIntercambio");
+
+
+if (errorSolicitudes) {
+
+    console.error("Error cargando solicitudes:", errorSolicitudes);
+    contenedorSolicitudes.textContent =
+        "Error cargando solicitudes.";
+
+} else if (solicitudes.length === 0) {
+
+    contenedorSolicitudes.textContent =
+        "No tenés solicitudes pendientes.";
+
+} else {
+
+    contenedorSolicitudes.innerHTML = "";
+
+    solicitudes.forEach(sol => {
+
+        contenedorSolicitudes.innerHTML += `
+
+            <div>
+
+                <p>
+                    ${sol.publicaciones.titulo}
+                </p>
+
+                <img 
+                    src="${sol.publicaciones.imagen}"
+                    width="80"
+                >
+
+                <p>
+                    Estado:
+                    ${sol.estado}
+                </p>
+
+                ${
+                    sol.estado === "pendiente"
+                    ?
+                    `
+                    <button onclick="aceptarSolicitud(${sol.id})">
+                        Aceptar
+                    </button>
+
+                    <button onclick="rechazarSolicitud(${sol.id})">
+                        Rechazar
+                    </button>
+                    `
+                    :
+                    sol.estado === "aceptado"
+                    ?
+                    `
+                    <p>
+                        ✅ Intercambio aceptado
+                    </p>
+
+                    <button onclick="mostrarContacto(${sol.id})">
+                        Mostrar contacto
+                    </button>
+                    `
+                    :
+                    `
+                    <p>
+                        ❌ Solicitud rechazada
+                    </p>
+                    `
+                }
+
+            </div>
+
+        `;
+
+    });
+
+}
+
 })();
 
 document.getElementById("btnVolverInicio")
@@ -243,3 +335,132 @@ function mostrarToast(mensaje){
     }, 2500);
 
 }
+
+async function aceptarSolicitud(id){
+
+    const { error } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .update({
+            estado: "aceptado"
+        })
+        .eq("id", id);
+
+
+    if(error){
+
+        console.error(error);
+
+        alert("No se pudo aceptar la solicitud.");
+
+        return;
+
+    }
+
+
+    alert("Solicitud aceptada");
+
+    location.reload();
+
+}
+
+async function rechazarSolicitud(id){
+
+    const { error } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .update({
+            estado: "rechazado"
+        })
+        .eq("id", id);
+
+
+    if(error){
+
+        console.error(error);
+
+        alert("No se pudo rechazar la solicitud.");
+
+        return;
+
+    }
+
+
+    alert("Solicitud rechazada");
+
+    location.reload();
+
+}
+
+async function mostrarContacto(id){
+
+    const { data: solicitud, error } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if(error){
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    console.log("Solicitud:", solicitud);
+
+    const { data: sesion } = await supabaseClient.auth.getSession();
+
+    const usuarioAuth = sesion.session.user;
+
+
+    const { data: miUsuario } = await supabaseClient
+        .from("usuarios")
+        .select("id")
+        .eq("auth_id", usuarioAuth.id)
+        .single();
+
+
+    const otroUsuarioId =
+        solicitud.usuario_solicitante_id === miUsuario.id
+        ? solicitud.usuario_dueno_id
+        : solicitud.usuario_solicitante_id;
+
+    const { data: contacto, error: errorContacto } =
+        await supabaseClient
+            .from("usuarios")
+            .select("nombre, telefono, email")
+            .eq("id", otroUsuarioId)
+            .single();
+
+
+    if(errorContacto){
+
+        console.error(errorContacto);
+
+        return;
+
+    }
+
+
+    document.getElementById("contactoNombre").textContent =
+        "Nombre: " + contacto.nombre;
+
+    document.getElementById("contactoTelefono").textContent =
+        "Teléfono: " + (contacto.telefono || "No informado");
+
+    document.getElementById("contactoEmail").textContent =
+        "Email: " + contacto.email;
+
+    document.getElementById("modalContacto").style.display = "flex";
+
+}
+
+document.getElementById("cerrarModalContacto")
+.addEventListener("click", () => {
+
+    document.getElementById("modalContacto")
+    .style.display = "none";
+
+});

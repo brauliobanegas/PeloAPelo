@@ -66,12 +66,15 @@ async function cargarPublicacionesSupabase() {
 
     hace30Dias.setDate(hace30Dias.getDate() - 30);
 
-    return data.filter(pub => {
+    publicaciones = data.filter(pub => {
 
         return new Date(pub.created_at) >= hace30Dias;
 
     });
+
+    return publicaciones;
 }
+
 
 let contenedor = document.getElementById("publicaciones");
 
@@ -264,11 +267,12 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
             <p><strong>Busca:</strong> ${p.busca}</p>
 
             <p class="fecha-publicacion">
-                📅 Publicado: ${formatoFecha(p.created_at)}
+                Publicado: ${formatoFecha(p.created_at)}
             </p>
-
+            
             <div class="acciones">
 
+          
     <button
         class="btn-ver"
         onclick="event.stopPropagation(); verPublicacion(${p.id})">
@@ -433,19 +437,11 @@ async function agregarPublicacion() {
             }
                   
         }
+renderizarPublicaciones();
 
-        publicaciones = await cargarPublicacionesSupabase();
-
-        function formatoFecha(fecha) {
-
-            const f = new Date(fecha);
-
-            return f.toLocaleDateString("es-AR", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric"
-            });
-
+btnPublicar.disabled = false;
+btnPublicar.textContent = "Publicar";
+       
 }
 
         renderizarPublicaciones();
@@ -488,11 +484,15 @@ async function agregarPublicacion() {
         btnPublicar.disabled = false;
         btnPublicar.textContent = "Publicar";
     }
-}
+
+
+    let publicacionSeleccionada = null;
 
     function verPublicacion(id) {
 
         let pub = publicaciones.find(p => p.id === id);
+
+        publicacionSeleccionada = pub;
 
         if (!pub) return;
 
@@ -519,11 +519,117 @@ async function agregarPublicacion() {
 
             btnCambiar.style.display = "block";
 
+            verificarSolicitudPendiente(pub.id);
+        }
+    } 
+
+async function verificarSolicitudPendiente(publicacionId){
+
+    const { data } = await supabaseClient.auth.getSession();
+
+    if(!data.session) return;
+
+    const usuarioAuth = data.session.user;
+
+    const { data: usuario } = await supabaseClient
+        .from("usuarios")
+        .select("id")
+        .eq("auth_id", usuarioAuth.id)
+        .single();
+
+
+    const { data: solicitud } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .select("id, estado")
+        .eq("publicacion_id", publicacionId)
+        .eq("usuario_solicitante_id", usuario.id)
+        .eq("estado", "pendiente")
+        .maybeSingle();
+
+
+    const btnCambiar = document.getElementById("btnCambiar");
+
+
+    const estadoSolicitud =
+        document.getElementById("modalEstadoSolicitud");
+
+
+    if(solicitud){
+
+        estadoSolicitud.textContent = "Solicitud pendiente";
+
+        btnCambiar.style.display = "none";
+
+    }else{
+
+        estadoSolicitud.textContent = "";
+
+        btnCambiar.style.display = "block";
+        btnCambiar.disabled = false;
+        btnCambiar.textContent = "Te lo cambio";
+
+        btnCambiar.onclick = solicitarIntercambio;
+
+    }
+
 }
 
-        document.getElementById("btnCambiar").onclick = function() {
-            alert("Esta función estará disponible próximamente.");
-};
+async function solicitarIntercambio() {
+
+    const confirmar = confirm(
+`Al enviar esta solicitud, si el propietario la acepta, tus datos de contacto que registraste, sean:
+• Tu nombre
+• Tu correo electrónico
+• Tu número de teléfono
+serán compartidos con la otra parte.
+Del mismo modo, vos recibirás esos mismos datos del propietario para que puedan coordinar el intercambio.
+
+¿Deseás continuar?`
+    );
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+    const { data } = await supabaseClient.auth.getSession();
+
+    const usuarioAuth = data.session.user;
+
+    const { data: usuario } = await supabaseClient
+        .from("usuarios")
+        .select("id")
+        .eq("auth_id", usuarioAuth.id)
+        .single();
+
+    const { error } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .insert([
+            {
+                publicacion_id: publicacionSeleccionada.id,
+                usuario_solicitante_id: usuario.id,
+                usuario_dueno_id: publicacionSeleccionada.usuario_id
+            }
+        ]);
+
+    if (error) {
+
+        console.error(error);
+
+        alert("Error al enviar la solicitud.");
+
+        return;
+
+    }
+
+    mostrarToast("✅ Solicitud enviada");
+
+    const btnCambiar = document.getElementById("btnCambiar");
+
+    btnCambiar.textContent = "Esperando respuesta";
+    btnCambiar.disabled = true;
+
 }
 
 document.getElementById("cerrarModal").addEventListener("click", function () {
