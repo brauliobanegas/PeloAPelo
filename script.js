@@ -75,6 +75,29 @@ async function cargarPublicacionesSupabase() {
     return publicaciones;
 }
 
+async function cargarSolicitudesPendientes() {
+
+    const { data: solicitudes, error } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .select("publicacion_id, estado")
+        .eq("estado", "pendiente");
+
+    if (error) {
+
+        console.error("Error cargando solicitudes:", error);
+        return;
+
+    }
+
+    estadosSolicitudes = {};
+
+    solicitudes.forEach(solicitud => {
+
+        estadosSolicitudes[solicitud.publicacion_id] = solicitud.estado;
+
+    });
+
+}
 
 let contenedor = document.getElementById("publicaciones");
 
@@ -123,6 +146,7 @@ chips.forEach(chip => {
 ----------------------------*/
 let publicaciones = [];
 let usuarioActualId = null;
+let estadosSolicitudes = {};
 
 const btnAyuda = document.getElementById("btnAyuda");
 const modalAyuda = document.getElementById("modalAyuda");
@@ -269,6 +293,16 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
             <p class="fecha-publicacion">
                 Publicado: ${formatoFecha(p.created_at)}
             </p>
+
+            ${
+                estadosSolicitudes[p.id] === "pendiente"
+                ? `
+                    <p class="estado-solicitud-tarjeta">
+                        Solicitud pendiente
+                    </p>
+                `
+                : ""
+            }
             
             <div class="acciones">
 
@@ -712,6 +746,8 @@ function editarPublicacion(id) {
 (async () => {
 
     usuarioActualId = await obtenerUsuarioActual();
+
+    await cargarSolicitudesPendientes();
 
     publicaciones = await cargarPublicacionesSupabase();
 
