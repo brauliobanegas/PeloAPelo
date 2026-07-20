@@ -80,7 +80,7 @@ async function cargarSolicitudesPendientes() {
     const { data: solicitudes, error } = await supabaseClient
         .from("solicitudes_intercambio")
         .select("publicacion_id, estado")
-        .eq("estado", "pendiente");
+        .in("estado", ["pendiente", "aceptado"]);
 
     if (error) {
 
@@ -294,14 +294,24 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
                 Publicado: ${formatoFecha(p.created_at)}
             </p>
 
-            ${
+           ${
                 estadosSolicitudes[p.id] === "pendiente"
-                ? `
-                    <p class="estado-solicitud-tarjeta">
+                ?
+                `
+                    <p class="estado-solicitud-tarjeta pendiente">
                         Solicitud pendiente
                     </p>
                 `
-                : ""
+                :
+                estadosSolicitudes[p.id] === "aceptado"
+                ?
+                `
+                    <p class="estado-solicitud-tarjeta aceptado">
+                        Intercambio aceptado
+                    </p>
+                `
+                :
+                ""
             }
             
             <div class="acciones">
@@ -577,7 +587,7 @@ async function verificarSolicitudPendiente(publicacionId){
         .select("id, estado")
         .eq("publicacion_id", publicacionId)
         .eq("usuario_solicitante_id", usuario.id)
-        .eq("estado", "pendiente")
+        .in("estado", ["pendiente", "aceptado"])
         .maybeSingle();
 
 
@@ -651,7 +661,15 @@ Del mismo modo, vos recibirás esos mismos datos del propietario para que puedan
 
         console.error(error);
 
-        alert("Error al enviar la solicitud.");
+        if(error.code === "23505"){
+
+            alert("Esta publicación ya tiene un intercambio pendiente.");
+
+        }else{
+
+            alert("Error al enviar la solicitud.");
+
+        }
 
         return;
 
