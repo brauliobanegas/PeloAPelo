@@ -107,7 +107,9 @@ const { data: solicitudes, error: errorSolicitudes } =
                 imagen
             )
         `)
-        .eq("usuario_dueno_id", usuario.id);
+        .or(
+            `usuario_dueno_id.eq.${usuario.id},usuario_solicitante_id.eq.${usuario.id}`
+        );
 
 
 const contenedorSolicitudes =
@@ -131,6 +133,8 @@ if (errorSolicitudes) {
 
     solicitudes.forEach(sol => {
 
+        const soyDueno = sol.usuario_dueno_id === usuario.id;
+
         contenedorSolicitudes.innerHTML += `
 
             <div>
@@ -144,39 +148,75 @@ if (errorSolicitudes) {
                     width="80"
                 >
 
-                <p>
-                    Estado:
-                    ${sol.estado}
-                </p>
-
+                
                 ${
-                    sol.estado === "pendiente"
+                    sol.estado === "pendiente" && soyDueno
                     ?
                     `
-                    <button onclick="aceptarSolicitud(${sol.id})">
-                        Aceptar
-                    </button>
+                        <p class="estado-solicitud-tarjeta pendiente">
+                            Esperando respuesta
+                        </p>
 
-                    <button onclick="rechazarSolicitud(${sol.id})">
-                        Rechazar
-                    </button>
+                        <div class="acciones">
+                            <button class="btn-principal"
+                                onclick="aceptarSolicitud(${sol.id})">
+                                Aceptar
+                            </button>
+
+                            <button class="btn-secundario"
+                                onclick="rechazarSolicitud(${sol.id})">
+                                Rechazar
+                            </button>
+                        </div>
+                    `
+                    :
+                    sol.estado === "pendiente" && soyDueno
+                    ?
+                    `
+                    <p class="estado-solicitud-tarjeta pendiente">
+                        Esperando respuesta
+                    </p>
+
+                    <div class="acciones">
+                        <button class="btn-principal"
+                            onclick="aceptarSolicitud(${sol.id})">
+                            Aceptar
+                        </button>
+
+                        <button class="btn-secundario"
+                            onclick="rechazarSolicitud(${sol.id})">
+                            Rechazar
+                        </button>
+                    </div>
+                    `
+                    :
+                    sol.estado === "pendiente" && !soyDueno
+                    ?
+                    `
+                    <p class="estado-solicitud-tarjeta pendiente">
+                        Esperando respuesta
+                    </p>
                     `
                     :
                     sol.estado === "aceptado"
                     ?
                     `
-                    <p>
-                        ✅ Intercambio aceptado
+                    <p class="estado-solicitud-tarjeta aceptado">
+                        Intercambio aceptado
                     </p>
 
-                    <button onclick="mostrarContacto(${sol.id})">
-                        Mostrar contacto
-                    </button>
+                    <div class="acciones">
+                        <button
+                            class="btn-principal"
+                            onclick="mostrarContacto(${sol.id})">
+                            Mostrar contacto
+                        </button>
+                    </div>
                     `
                     :
                     `
-                    <p>
-                        ❌ Solicitud rechazada
+                    <p class="estado-solicitud-tarjeta rechazado">
+                        Intercambio rechazado
                     </p>
                     `
                 }
@@ -338,6 +378,20 @@ function mostrarToast(mensaje){
 
 async function aceptarSolicitud(id){
 
+    const confirmar = confirm(
+`Al aceptar esta solicitud de intercambio, autorizás que la otra parte pueda ver tus datos de contacto registrados:
+• Nombre
+• Correo electrónico
+• Teléfono
+Del mismo modo, vos también podrás ver los datos de la otra persona para coordinar el intercambio.
+
+¿Deseás continuar?`
+        );
+
+        if (!confirmar) {
+            return;
+        }
+
     const { error } = await supabaseClient
         .from("solicitudes_intercambio")
         .update({
@@ -391,6 +445,20 @@ async function rechazarSolicitud(id){
 }
 
 async function mostrarContacto(id){
+
+        const confirmar = confirm(
+`Al mostrar los datos de contacto que resgistraron, ambas partes podrán ver:
+• Nombre
+• Correo electrónico
+• Teléfono
+Esto les permitirá coordinar el intercambio.
+
+¿Deseás continuar?`
+    );
+
+    if (!confirmar) {
+        return;
+    }
 
     const { data: solicitud, error } = await supabaseClient
         .from("solicitudes_intercambio")
