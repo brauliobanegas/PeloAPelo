@@ -206,11 +206,25 @@ if (errorSolicitudes) {
                     </p>
 
                     <div class="acciones">
+
                         <button
                             class="btn-principal"
                             onclick="mostrarContacto(${sol.id})">
                             Mostrar contacto
                         </button>
+
+                        <button
+                            class="btn-principal"
+                            onclick="marcarIntercambio(${sol.id}, 'exitoso')">
+                            Intercambio exitoso
+                        </button>
+
+                        <button
+                            class="btn-secundario"
+                            onclick="marcarIntercambio(${sol.id}, 'fallo')">
+                            Falló el intercambio
+                        </button>
+
                     </div>
                     `
                     :
@@ -394,8 +408,9 @@ Del mismo modo, vos también podrás ver los datos de la otra persona para coord
 
     const { error } = await supabaseClient
         .from("solicitudes_intercambio")
-        .update({
-            estado: "aceptado"
+       .update({
+            estado: "aceptado",
+            fecha_aceptacion: new Date()
         })
         .eq("id", id);
 
