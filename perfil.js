@@ -139,16 +139,20 @@ if (errorSolicitudes) {
 
         contenedorSolicitudes.innerHTML += `
 
-            <div>
+            <div class="tarjeta-solicitud">
 
-                <p>
-                    ${sol.publicaciones.titulo}
-                </p>
+                <div class="info-solicitud">
 
-                <img 
-                    src="${sol.publicaciones.imagen}"
-                    width="80"
-                >
+                    <img 
+                        src="${sol.publicaciones.imagen}"
+                        width="80"
+                    >
+
+                    <p>
+                        ${sol.publicaciones.titulo}
+                    </p>
+
+                </div>
 
                 
                 ${
@@ -607,6 +611,16 @@ document.getElementById("cerrarModalContacto")
 
 });
 
+document.getElementById("modalContacto")
+.addEventListener("click", (e) => {
+
+    if (e.target.id === "modalContacto") {
+        document.getElementById("modalContacto")
+        .style.display = "none";
+    }
+
+});
+
 async function marcarIntercambio(id, resultado){
 
     const { data } = await supabaseClient.auth.getSession();
@@ -685,4 +699,5 @@ async function marcarIntercambio(id, resultado){
 
     location.reload();
 
+    
 }

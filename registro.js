@@ -47,3 +47,10 @@ document
         console.log("Usuario Auth:", data);
 
     });
+
+document.getElementById("aceptoTerminos")
+.addEventListener("change", function(){
+
+    document.getElementById("btnRegistro").disabled = !this.checked;
+
+});
