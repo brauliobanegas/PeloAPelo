@@ -4,6 +4,96 @@
 ==========================================================*/
 
 /* ==========================================================
+   COLORES GLOBALES TRUEQUEAR
+========================================================== */
+
+:root{
+
+    --verde:#28a745;
+    --verde-hover:#218838;
+
+    --rojo:#dc3545;
+    --rojo-hover:#c82333;
+
+    --azul:#007bff;
+    --azul-hover:#0069d9;
+
+    --naranja:#fd7e14;
+    --naranja-hover:#e96b00;
+
+    --gris:#6c757d;
+    --gris-hover:#5a6268;
+
+    --blanco:#ffffff;
+
+}
+
+/* ==========================================================
+   BOTONES BASE
+========================================================== */
+
+.btn{
+
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+
+    min-width:140px;
+    height:42px;
+
+    border:none;
+    border-radius:8px;
+
+    font-weight:600;
+    font-size:14px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    color:var(--blanco);
+
+}
+
+.btn:hover{
+
+    transform:translateY(-1px);
+
+}
+
+.btn-verde{
+    background:var(--verde);
+}
+
+.btn-verde:hover{
+    background:var(--verde-hover);
+}
+
+.btn-rojo{
+    background:var(--rojo);
+}
+
+.btn-rojo:hover{
+    background:var(--rojo-hover);
+}
+
+.btn-azul{
+    background:var(--azul);
+}
+
+.btn-azul:hover{
+    background:var(--azul-hover);
+}
+
+.btn-naranja{
+    background:var(--naranja);
+}
+
+.btn-naranja:hover{
+    background:var(--naranja-hover);
+}
+
+/* ==========================================================
    BODY
 ==========================================================*/
 
@@ -1899,4 +1989,44 @@ body{
     padding: 6px;
     margin: 10px 0;
 
+}
+
+/* ==========================================================
+   BOTONES TRUEQUEAR
+========================================================== */
+
+.btn-verde{
+    background: var(--verde);
+    color: var(--blanco);
+}
+
+.btn-verde:hover{
+    background: var(--verde-hover);
+}
+
+.btn-rojo{
+    background: var(--rojo);
+    color: var(--blanco);
+}
+
+.btn-rojo:hover{
+    background: var(--rojo-hover);
+}
+
+.btn-azul{
+    background: var(--azul);
+    color: var(--blanco);
+}
+
+.btn-azul:hover{
+    background: var(--azul-hover);
+}
+
+.btn-naranja{
+    background: var(--naranja);
+    color: var(--blanco);
+}
+
+.btn-naranja:hover{
+    background: var(--naranja-hover);
 }

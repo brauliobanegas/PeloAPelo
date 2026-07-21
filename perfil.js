@@ -160,12 +160,14 @@ if (errorSolicitudes) {
                         </p>
 
                         <div class="acciones">
-                            <button class="btn-principal"
+                            <button 
+                            class="btn-principal btn-verde"
                                 onclick="aceptarSolicitud(${sol.id})">
                                 Aceptar
                             </button>
 
-                            <button class="btn-secundario"
+                            <button 
+                                class="btn-secundario btn-rojo"
                                 onclick="rechazarSolicitud(${sol.id})">
                                 Rechazar
                             </button>
@@ -180,12 +182,14 @@ if (errorSolicitudes) {
                     </p>
 
                     <div class="acciones">
-                        <button class="btn-principal"
+                        <button 
+                            class="btn-principal btn-verde"
                             onclick="aceptarSolicitud(${sol.id})">
                             Aceptar
                         </button>
 
-                        <button class="btn-secundario"
+                        <button 
+                            class="btn-secundario btn-rojo"
                             onclick="rechazarSolicitud(${sol.id})">
                             Rechazar
                         </button>
@@ -210,7 +214,7 @@ if (errorSolicitudes) {
                     <div class="acciones">
 
                         <button
-                            class="btn-principal"
+                            class="btn-principal btn-azul"
                             onclick="mostrarContacto(${sol.id})">
                             Mostrar contacto
                         </button>
@@ -223,13 +227,13 @@ if (errorSolicitudes) {
                             ?
                             `
                                 <button
-                                    class="btn-principal"
+                                    class="btn-principal btn-verde"
                                     onclick="marcarIntercambio(${sol.id}, 'exitoso')">
                                     Intercambio exitoso
                                 </button>
 
                                 <button
-                                    class="btn-secundario"
+                                    class="btn-secundario btn-naranja"
                                     onclick="marcarIntercambio(${sol.id}, 'fallo')">
                                     Falló el intercambio
                                 </button>

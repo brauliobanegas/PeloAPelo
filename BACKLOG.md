@@ -23,3 +23,10 @@ Objetivo futuro:
 - aceptado → publicación visible, "Intercambio aceptado", cuenta regresiva de 24 h.
 - finalizado → publicación oculta del index.
 Una vez finalizada toda la lógica del intercambio, reemplazar la consulta a solicitudes_intercambio por estado_intercambio para simplificar el código y centralizar el estado de cada publicación en la tabla publicaciones.
+
+BUG - Resolver cierre del intercambio cuando las partes votan distinto.
+Estado actual:
+- Ambos "Intercambio exitoso" → publicaciones.estado_intercambio = finalizado (funciona).
+- Dueño = Exitoso / Solicitante = Falló → publicaciones.estado_intercambio = disponible (funciona).
+- Dueño = Falló / Solicitante = Exitoso → publicaciones.estado_intercambio queda en "aceptado" (bug).
+Revisar la lógica de marcarIntercambio() y la actualización de publicaciones.estado_intercambio. El comportamiento debería ser independiente del orden en que voten las partes.
