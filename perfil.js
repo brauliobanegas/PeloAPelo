@@ -99,9 +99,11 @@ if (misPublicaciones.length === 0) {
 
 const { data: solicitudes, error: errorSolicitudes } =
     await supabaseClient
-        .from("solicitudes_intercambio")
+       .from("solicitudes_intercambio")
         .select(`
             *,
+            resultado_usuario_dueno,
+            resultado_usuario_solicitante,
             publicaciones (
                 titulo,
                 imagen
@@ -213,17 +215,28 @@ if (errorSolicitudes) {
                             Mostrar contacto
                         </button>
 
-                        <button
-                            class="btn-principal"
-                            onclick="marcarIntercambio(${sol.id}, 'exitoso')">
-                            Intercambio exitoso
-                        </button>
+                        ${
+                            (
+                                (soyDueno && !sol.resultado_usuario_dueno) ||
+                                (!soyDueno && !sol.resultado_usuario_solicitante)
+                            )
+                            ?
+                            `
+                                <button
+                                    class="btn-principal"
+                                    onclick="marcarIntercambio(${sol.id}, 'exitoso')">
+                                    Intercambio exitoso
+                                </button>
 
-                        <button
-                            class="btn-secundario"
-                            onclick="marcarIntercambio(${sol.id}, 'fallo')">
-                            Falló el intercambio
-                        </button>
+                                <button
+                                    class="btn-secundario"
+                                    onclick="marcarIntercambio(${sol.id}, 'fallo')">
+                                    Falló el intercambio
+                                </button>
+                            `
+                            :
+                            ""
+                        }
 
                     </div>
                     `
@@ -326,9 +339,7 @@ document.getElementById("btnGuardarPerfil")
 
     const usuarioAuth = data.session.user;
 
-    console.log("Auth ID actual:", usuarioAuth.id);
-
-
+    
     const { data: actualizado, error } = await supabaseClient
         .from("usuarios")
         .update({
@@ -414,6 +425,24 @@ Del mismo modo, vos también podrás ver los datos de la otra persona para coord
         })
         .eq("id", id);
 
+    const { data: solicitud } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .select(`
+            usuario_dueno_id,
+            usuario_solicitante_id,
+            publicacion_id,
+            resultado_usuario_dueno,
+            resultado_usuario_solicitante
+        `)
+        .eq("id", id)
+        .single();
+
+    await supabaseClient
+        .from("publicaciones")
+        .update({
+            estado_intercambio: "aceptado"
+        })
+        .eq("id", solicitud.publicacion_id);    
 
     if(error){
 
@@ -441,8 +470,35 @@ async function rechazarSolicitud(id){
         })
         .eq("id", id);
 
+    const { data: solicitudActualizada } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .select(`
+            resultado_usuario_dueno,
+            resultado_usuario_solicitante,
+            publicacion_id
+        `)
+        .eq("id", id)
+        .single();
 
-    if(error){
+    if (
+        solicitudActualizada.resultado_usuario_dueno &&
+        solicitudActualizada.resultado_usuario_solicitante
+    ) {
+
+        const ambosExitosos =
+            solicitudActualizada.resultado_usuario_dueno === "exitoso" &&
+            solicitudActualizada.resultado_usuario_solicitante === "exitoso";
+
+        await supabaseClient
+            .from("publicaciones")
+            .update({
+                estado_intercambio: ambosExitosos ? "finalizado" : "disponible"
+            })
+            .eq("id", solicitudActualizada.publicacion_id);
+
+    }
+
+        if(error){
 
         console.error(error);
 
@@ -491,8 +547,7 @@ Esto les permitirá coordinar el intercambio.
     }
 
 
-    console.log("Solicitud:", solicitud);
-
+   
     const { data: sesion } = await supabaseClient.auth.getSession();
 
     const usuarioAuth = sesion.session.user;
@@ -547,3 +602,83 @@ document.getElementById("cerrarModalContacto")
     .style.display = "none";
 
 });
+
+async function marcarIntercambio(id, resultado){
+
+    const { data } = await supabaseClient.auth.getSession();
+
+    const usuarioAuth = data.session.user;
+
+    const { data: miUsuario } = await supabaseClient
+        .from("usuarios")
+        .select("id")
+        .eq("auth_id", usuarioAuth.id)
+        .single();
+
+    const { data: solicitud } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .select("usuario_dueno_id, usuario_solicitante_id")
+        .eq("id", id)
+        .single();
+
+    const campo =
+        miUsuario.id === solicitud.usuario_dueno_id
+        ? "resultado_usuario_dueno"
+        : "resultado_usuario_solicitante";
+
+    const { data: actualizada, error } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .update({
+            [campo]: resultado
+        })
+        .eq("id", id)
+        .select();
+    
+  
+    if(error){
+
+        console.error(error);
+
+        alert("No se pudo registrar el resultado.");
+
+        return;
+
+    }
+
+    
+    const { data: solicitudActualizada } = await supabaseClient
+        .from("solicitudes_intercambio")
+        .select(`
+            resultado_usuario_dueno,
+            resultado_usuario_solicitante,
+            publicacion_id
+        `)
+        .eq("id", id)
+        .single();
+    
+    if(
+        solicitudActualizada.resultado_usuario_dueno &&
+        solicitudActualizada.resultado_usuario_solicitante
+    ){
+
+        const estadoFinal =
+            solicitudActualizada.resultado_usuario_dueno === "exitoso" &&
+            solicitudActualizada.resultado_usuario_solicitante === "exitoso"
+            ? "finalizado"
+            : "disponible";
+
+       
+        await supabaseClient
+            .from("publicaciones")
+            .update({
+                estado_intercambio: estadoFinal
+            })
+            .eq("id", solicitudActualizada.publicacion_id);
+
+    }
+
+    alert("Resultado registrado correctamente.");
+
+    location.reload();
+
+}

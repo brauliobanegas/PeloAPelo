@@ -13,3 +13,13 @@ Chat interno (solo después de aceptar una solicitud).
 Valoraciones entre usuarios
 
 Hacer que alrededor del trueque, se genere una red social, que haya seguimiento de otro usuario para ver que publican
+
+REFACTOR - LÓGICA DE ESTADO DE INTERCAMBIO
+Actualmente el index obtiene el estado de las publicaciones consultando la tabla solicitudes_intercambio (estadosSolicitudes).
+Se decidió migrar esta lógica para que la fuente de verdad sea publicaciones.estado_intercambio.
+Objetivo futuro:
+- disponible → publicación visible y botón "Te lo cambio" habilitado.
+- pendiente → publicación visible, "Solicitud pendiente", botón deshabilitado.
+- aceptado → publicación visible, "Intercambio aceptado", cuenta regresiva de 24 h.
+- finalizado → publicación oculta del index.
+Una vez finalizada toda la lógica del intercambio, reemplazar la consulta a solicitudes_intercambio por estado_intercambio para simplificar el código y centralizar el estado de cada publicación en la tabla publicaciones.

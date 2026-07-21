@@ -657,6 +657,22 @@ Del mismo modo, vos recibirás esos mismos datos del propietario para que puedan
             }
         ]);
 
+    if (!error) {
+
+        console.log("ID publicación:", publicacionSeleccionada.id);
+
+        const { data: actualizado, error: errorEstado } = await supabaseClient
+            .from("publicaciones")
+            .update({
+                estado_intercambio: "pendiente"
+            })
+            .eq("id", publicacionSeleccionada.id)
+            .select();
+
+        console.log("Filas actualizadas:", actualizado);
+        console.log("Error update:", errorEstado);
+    }
+
     if (error) {
 
         console.error(error);
