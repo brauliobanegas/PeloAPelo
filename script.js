@@ -479,6 +479,8 @@ async function agregarPublicacion() {
                 btnPublicar.textContent = "Publicar";
                 return;
             }
+
+            mostrarToast("Tu publicación estará vigente durante 30 días corridos. Luego se desactivará automáticamente.");
                   
         }
 renderizarPublicaciones();
