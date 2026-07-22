@@ -30,3 +30,5 @@ Estado actual:
 - Dueño = Exitoso / Solicitante = Falló → publicaciones.estado_intercambio = disponible (funciona).
 - Dueño = Falló / Solicitante = Exitoso → publicaciones.estado_intercambio queda en "aceptado" (bug).
 Revisar la lógica de marcarIntercambio() y la actualización de publicaciones.estado_intercambio. El comportamiento debería ser independiente del orden en que voten las partes.
+
+Eliminar publicacion.html y publicacion.js al finalizar el MVP si se confirma que ya no son utilizados por ningún enlace.
