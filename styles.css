@@ -121,7 +121,7 @@ body{
 
 .encabezado{
 
-    background:linear-gradient(90deg,#6EC6FF,#2196F3,#6EC6FF);
+    background:linear-gradient(90deg,#35506F,#243B55,#35506F);
 
     text-align:center;
 
@@ -2198,4 +2198,24 @@ body{
 
     transition:.2s;
 
+}
+
+.logoCeleste,
+.logoBlanco,
+.logoAmarillo{
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.logoCeleste{
+    color:#59bfff;
+}
+
+.logoBlanco{
+    color:#ffffff;
+}
+
+.logoAmarillo{
+    color:#ffd54a;
 }

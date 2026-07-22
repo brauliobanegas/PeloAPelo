@@ -23,6 +23,6 @@ document
 
         console.log("Sesión iniciada:", data.user);
 
-        mensaje.textContent = "¡Bienvenido a TruequeAR!";
+        mensaje.textContent = "¡Bienvenido a PeloAPelo!";
         window.location.href = "index.html";
     });
