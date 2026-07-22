@@ -887,3 +887,27 @@ function cancelarEdicion() {
     renderizarPublicaciones();
 
 }
+
+const contenedorNotificaciones =
+document.getElementById("contenedorNotificaciones");
+
+const listaNotificaciones =
+document.getElementById("listaNotificaciones");
+
+console.log(contenedorNotificaciones);
+console.log(listaNotificaciones);
+
+if (contenedorNotificaciones && listaNotificaciones){
+
+    listaNotificaciones.innerHTML =
+        "<div class='itemNotificacion'>Prueba</div>";
+
+    contenedorNotificaciones.onclick = function(){
+
+        console.log("CLICK");
+
+        listaNotificaciones.classList.toggle("mostrar");
+
+    };
+
+}
