@@ -52,7 +52,7 @@
 
 async function cargarPublicacionesSupabase() {
 
-    const { data, error } = await supabaseClient
+       const { data, error } = await supabaseClient
         .from("publicaciones")
         .select("*")
         .order("id", { ascending: false });
@@ -661,8 +661,7 @@ Del mismo modo, vos recibirás esos mismos datos del propietario para que puedan
 
     if (!error) {
 
-        console.log("ID publicación:", publicacionSeleccionada.id);
-
+        
         const { data: actualizado, error: errorEstado } = await supabaseClient
             .from("publicaciones")
             .update({
@@ -671,8 +670,7 @@ Del mismo modo, vos recibirás esos mismos datos del propietario para que puedan
             .eq("id", publicacionSeleccionada.id)
             .select();
 
-        console.log("Filas actualizadas:", actualizado);
-        console.log("Error update:", errorEstado);
+       
     }
 
     if (error) {
@@ -776,6 +774,62 @@ function editarPublicacion(id) {
         .classList.add("editando");
 }
 
+ async function cargarNotificaciones() {
+
+        const { data: sesion } = await supabaseClient.auth.getSession();
+
+        if (!sesion.session) return;
+
+        const { data: usuario } = await supabaseClient
+            .from("usuarios")
+            .select("id")
+            .eq("auth_id", sesion.session.user.id)
+            .single();
+
+        const { data: solicitudes, error } = await supabaseClient
+            .from("solicitudes_intercambio")
+            .select(`
+                id,
+                estado,
+                publicaciones(
+                    titulo
+                )
+            `)
+            .eq("usuario_dueno_id", usuario.id)
+            .eq("estado", "pendiente");
+
+        if(error){
+
+            console.error(error);
+            return;
+
+        }
+
+        const texto =
+            document.getElementById("textoNotificaciones");
+
+        const lista =
+            document.getElementById("listaNotificaciones");
+
+        if(!texto || !lista) return;
+
+        texto.textContent =
+            `Tenés ${solicitudes.length} notificaciones`;
+
+        lista.innerHTML = "";
+
+        solicitudes.forEach(sol => {
+
+            lista.innerHTML += `
+                <div class="itemNotificacion">
+                    🔔 Tenés un interesado en "${sol.publicaciones.titulo}"
+                </div>
+            `;
+
+        });
+
+    }
+
 /* ---------------------------
    INIT
 ----------------------------*/
@@ -786,6 +840,8 @@ function editarPublicacion(id) {
     await cargarSolicitudesPendientes();
 
     publicaciones = await cargarPublicacionesSupabase();
+
+    await cargarNotificaciones();
 
     renderizarPublicaciones();
 
@@ -894,8 +950,6 @@ document.getElementById("contenedorNotificaciones");
 const listaNotificaciones =
 document.getElementById("listaNotificaciones");
 
-console.log(contenedorNotificaciones);
-console.log(listaNotificaciones);
 
 if (contenedorNotificaciones && listaNotificaciones){
 
