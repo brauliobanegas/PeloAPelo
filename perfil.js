@@ -1,3 +1,8 @@
+const parametros = new URLSearchParams(window.location.search);
+
+const solicitudSeleccionada =
+    Number(parametros.get("solicitud"));
+
 (async () => {
 
     const { data } = await supabaseClient.auth.getSession();
@@ -135,11 +140,15 @@ if (errorSolicitudes) {
 
     solicitudes.forEach(sol => {
 
+        const destacar = sol.id === solicitudSeleccionada;
+
         const soyDueno = sol.usuario_dueno_id === usuario.id;
 
         contenedorSolicitudes.innerHTML += `
 
-            <div class="tarjeta-solicitud">
+            <div
+                id="solicitud-${sol.id}"
+                class="tarjeta-solicitud ${destacar ? "solicitud-destacada" : ""}">
 
                 <div class="info-solicitud">
 
@@ -261,6 +270,33 @@ if (errorSolicitudes) {
         `;
 
     });
+
+    if (solicitudSeleccionada) {
+
+        setTimeout(() => {
+
+            const tarjeta = document.getElementById(
+                `solicitud-${solicitudSeleccionada}`
+            );
+
+            if (tarjeta) {
+
+                const destino =
+                    tarjeta.getBoundingClientRect().top +
+                    window.pageYOffset -
+                    (window.innerHeight / 2) +
+                    (tarjeta.offsetHeight / 2);
+
+                window.scrollTo({
+                    top: destino,
+                    behavior: "smooth"
+                });
+
+            }
+
+        }, 200);
+
+    }
 
 }
 

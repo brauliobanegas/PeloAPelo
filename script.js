@@ -774,8 +774,16 @@ function editarPublicacion(id) {
         .classList.add("editando");
 }
 
+ function abrirNotificacion(idSolicitud){
+
+    window.location.href =
+    `perfil.html?solicitud=${idSolicitud}`;
+
+}
+
  async function cargarNotificaciones() {
 
+       
         const { data: sesion } = await supabaseClient.auth.getSession();
 
         if (!sesion.session) return;
@@ -821,8 +829,12 @@ function editarPublicacion(id) {
         solicitudes.forEach(sol => {
 
             lista.innerHTML += `
-                <div class="itemNotificacion">
+                <div
+                    class="itemNotificacion"
+                    onclick="abrirNotificacion(${sol.id})">
+
                     🔔 Tenés un interesado en "${sol.publicaciones.titulo}"
+
                 </div>
             `;
 

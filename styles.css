@@ -1281,9 +1281,9 @@ body{
 
 .logoPrincipal{
 
-    width:70px;
+    width:100px;
 
-    height:70px;
+    height:100px;
 
     object-fit:contain;
 
@@ -2263,7 +2263,7 @@ body{
 }
 
 .logoAmarillo{
-    color:#ffd54a;
+    color:#FCBF49;
 }
 
 .contenedorNotificaciones{
@@ -2346,5 +2346,25 @@ body{
 .itemNotificacion:hover{
 
     background:#426385;
+
+}
+
+.solicitud-destacada{
+
+    border:3px solid #243B55;
+
+    box-shadow:0 0 15px rgba(13,110,253,.35);
+
+    animation:destacarSolicitud 1s ease-in-out 3;
+
+}
+
+@keyframes destacarSolicitud{
+
+    50%{
+
+        transform:scale(1.02);
+
+    }
 
 }
