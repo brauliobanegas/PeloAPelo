@@ -79,7 +79,7 @@ async function cargarSolicitudesPendientes() {
 
     const { data: solicitudes, error } = await supabaseClient
         .from("solicitudes_intercambio")
-        .select("publicacion_id, estado")
+        .select("publicacion_id, estado, fecha_aceptacion, created_at")
         .in("estado", ["pendiente", "aceptado"]);
 
     if (error) {
@@ -93,7 +93,11 @@ async function cargarSolicitudesPendientes() {
 
     solicitudes.forEach(solicitud => {
 
-        estadosSolicitudes[solicitud.publicacion_id] = solicitud.estado;
+        estadosSolicitudes[solicitud.publicacion_id] = {
+            estado: solicitud.estado,
+            fecha_aceptacion: solicitud.fecha_aceptacion,
+            created_at: solicitud.created_at
+        };
 
     });
 
@@ -154,6 +158,102 @@ const cerrarModalAyuda = document.getElementById("cerrarModalAyuda");
 const btnEnviarAyuda = document.getElementById("btnEnviarAyuda");
 
 const toast = document.getElementById("toast");
+
+function actualizarContadores(){
+
+    const contadores =
+        document.querySelectorAll(".tiempo-restante");
+
+
+    contadores.forEach(contador => {
+
+        const fecha =
+            new Date(contador.dataset.fecha.slice(0,23) + "Z");
+
+        const ahora =
+            new Date();
+
+        const diferencia =
+            fecha.getTime() + (48 * 60 * 60 * 1000)
+            - ahora.getTime();
+
+        if(diferencia <= 0){
+            
+            contador.textContent =
+                "Tiempo agotado";
+
+            return;
+
+        }
+
+
+        const horas =
+            Math.floor(diferencia / (1000 * 60 * 60));
+
+
+        const minutos =
+            Math.floor(
+                (diferencia % (1000 * 60 * 60))
+                / (1000 * 60)
+            );
+       
+        contador.textContent =
+            horas > 0
+            ? `⏱ Quedan ${horas} h ${minutos} min para responder`
+            : `⏱ Quedan ${minutos} min para responder`;
+
+    });
+
+}
+
+function actualizarRespuestaPendiente(){
+
+    const contadores =
+        document.querySelectorAll(".tiempo-respuesta");
+
+
+    contadores.forEach(contador => {
+        
+        const fecha =
+            new Date(contador.dataset.fecha);
+
+        const ahora =
+            new Date();
+
+        const diferencia =
+            fecha.getTime() + (48 * 60 * 60 * 1000)
+            - ahora.getTime();
+
+
+        if(diferencia <= 0){
+
+            contador.textContent =
+                "Solicitud vencida";
+
+            return;
+
+        }
+
+
+        const horas =
+            Math.floor(diferencia / (1000 * 60 * 60));
+
+
+        const minutos =
+            Math.floor(
+                (diferencia % (1000 * 60 * 60))
+                / (1000 * 60)
+            );
+
+
+        contador.textContent =
+            horas > 0
+            ? `⏱ Quedan ${horas} h ${minutos} min para responder`
+            : `⏱ Quedan ${minutos} min para responder`;
+
+    });
+
+}
 
 function mostrarToast(mensaje){
 
@@ -261,7 +361,7 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 }
 
     for (let p of publicaciones) {
-
+       
         if (filtro && !p.titulo.toLowerCase().includes(filtro.toLowerCase())) continue;
 
         if (categoria && p.categoria !== categoria) continue;
@@ -295,19 +395,29 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
             </p>
 
            ${
-                estadosSolicitudes[p.id] === "pendiente"
+                estadosSolicitudes[p.id]?.estado === "pendiente"
                 ?
                 `
                     <p class="estado-solicitud-tarjeta pendiente">
                         Solicitud pendiente
                     </p>
+                   
+                    <p 
+                        class="tiempo-respuesta"
+                        data-fecha="${estadosSolicitudes[p.id].created_at}">
+                    </p>
                 `
                 :
-                estadosSolicitudes[p.id] === "aceptado"
+                estadosSolicitudes[p.id]?.estado === "aceptado"
                 ?
                 `
                     <p class="estado-solicitud-tarjeta aceptado">
                         Intercambio aceptado
+                    </p>
+
+                    <p 
+                        class="tiempo-restante"
+                        data-fecha="${estadosSolicitudes[p.id].fecha_aceptacion}">
                     </p>
                 `
                 :
@@ -362,7 +472,16 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 </div>
         `;
     }
-}
+
+    actualizarContadores();
+
+    actualizarRespuestaPendiente();
+
+    setInterval(actualizarContadores, 60000);
+
+    setInterval(actualizarRespuestaPendiente, 60000);
+
+    }
 
 /* ---------------------------
    VARIABLES
