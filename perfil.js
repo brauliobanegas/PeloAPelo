@@ -223,12 +223,7 @@ if (errorSolicitudes) {
                     <p class="estado-solicitud-tarjeta aceptado">
                         Intercambio aceptado
                     </p>
-
-                    <p
-                        class="tiempo-restante"
-                        data-fecha="${sol.fecha_aceptacion}">
-                    </p>
-
+                   
                     <div class="acciones">
 
                         <button
@@ -305,7 +300,7 @@ if (errorSolicitudes) {
 
     actualizarContadores();
 
-    setInterval(actualizarContadores, 60000);
+
 
 
 }
@@ -438,53 +433,6 @@ document.getElementById("btnGuardarPerfil")
     mostrarToast("✅ Perfil actualizado correctamente");
 
 });
-
-function actualizarContadores(){
-
-    const contadores =
-        document.querySelectorAll(".tiempo-restante");
-
-
-    contadores.forEach(contador => {
-
-        const fecha =
-            new Date(contador.dataset.fecha);
-
-        const ahora =
-            new Date();
-
-        const diferencia =
-            fecha.getTime() + (24 * 60 * 60 * 1000)
-            - ahora.getTime();
-
-
-        if(diferencia <= 0){
-
-            contador.textContent =
-                "Tiempo agotado";
-
-            return;
-
-        }
-
-
-        const horas =
-            Math.floor(diferencia / (1000 * 60 * 60));
-
-
-        const minutos =
-            Math.floor(
-                (diferencia % (1000 * 60 * 60))
-                / (1000 * 60)
-            );
-
-
-        contador.textContent =
-            `Tiempo restante: ${horas} h ${minutos} min`;
-
-    });
-
-}
 
 function mostrarToast(mensaje){
 

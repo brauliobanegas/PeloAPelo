@@ -1,3 +1,5 @@
+console.log("SCRIPT JS CARGADO");
+
 (async () => {
 
     const { data } = await supabaseClient.auth.getSession();
@@ -280,7 +282,11 @@ function formatoFecha(fecha) {
 
 function renderizarPublicaciones(filtro = "", categoria = "") {
 
+    console.log("ENTRO A RENDER");
+
     contenedor.innerHTML = "";
+
+    document.querySelectorAll(".tiempo-respuesta").forEach(e => e.remove());
 
     if (publicaciones.length === 0) {
     contenedor.innerHTML = `
@@ -298,6 +304,8 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
 }
 
     for (let p of publicaciones) {
+
+        console.log("ESTADO TARJETA:", p.id, estadosSolicitudes[p.id]?.estado);
        
         if (filtro && !p.titulo.toLowerCase().includes(filtro.toLowerCase())) continue;
 
@@ -335,24 +343,25 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
                 estadosSolicitudes[p.id]?.estado === "pendiente"
                 ?
                 `
-                    <p class="estado-solicitud-tarjeta pendiente">
-                        Solicitud pendiente
-                    </p>
-                    
-                    <p
-                        class="tiempo-respuesta"
-                        data-fecha="${estadosSolicitudes[p.id].created_at}">
-                    </p>
+                <p class="estado-solicitud-tarjeta pendiente">
+                    Solicitud pendiente
+                </p>
+
+                <p
+                    class="tiempo-respuesta"
+                    data-fecha="${estadosSolicitudes[p.id].created_at}">
+                </p>
                 `
                 :
                 estadosSolicitudes[p.id]?.estado === "aceptado"
                 ?
                 `
-                    <p class="estado-solicitud-tarjeta aceptado">
-                        Intercambio aceptado
-                    </p>
+                <p class="estado-solicitud-tarjeta aceptado">
+                    Intercambio aceptado
+                </p>
                 `
                 :
+                
                 ""
             }
             
