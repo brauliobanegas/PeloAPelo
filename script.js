@@ -159,97 +159,34 @@ const btnEnviarAyuda = document.getElementById("btnEnviarAyuda");
 
 const toast = document.getElementById("toast");
 
-function actualizarContadores(){
+function actualizarRespuestaPendiente() {
 
-    const contadores =
-        document.querySelectorAll(".tiempo-restante");
-
+    const contadores = document.querySelectorAll(".tiempo-respuesta");
 
     contadores.forEach(contador => {
 
-        const fecha =
-            new Date(contador.dataset.fecha.slice(0,23) + "Z");
+        const fecha = new Date(contador.dataset.fecha);
 
-        const ahora =
-            new Date();
+        const ahora = new Date();
 
         const diferencia =
-            fecha.getTime() + (48 * 60 * 60 * 1000)
-            - ahora.getTime();
+            fecha.getTime() + (24 * 60 * 60 * 1000) - ahora.getTime();
 
-        if(diferencia <= 0){
-            
-            contador.textContent =
-                "Tiempo agotado";
+        if (diferencia <= 0) {
 
+            contador.textContent = "Solicitud vencida";
             return;
 
         }
 
+        const horas = Math.floor(diferencia / (1000 * 60 * 60));
 
-        const horas =
-            Math.floor(diferencia / (1000 * 60 * 60));
-
-
-        const minutos =
-            Math.floor(
-                (diferencia % (1000 * 60 * 60))
-                / (1000 * 60)
-            );
-       
-        contador.textContent =
-            horas > 0
-            ? `⏱ Quedan ${horas} h ${minutos} min para responder`
-            : `⏱ Quedan ${minutos} min para responder`;
-
-    });
-
-}
-
-function actualizarRespuestaPendiente(){
-
-    const contadores =
-        document.querySelectorAll(".tiempo-respuesta");
-
-
-    contadores.forEach(contador => {
-        
-        const fecha =
-            new Date(contador.dataset.fecha);
-
-        const ahora =
-            new Date();
-
-        const diferencia =
-            fecha.getTime() + (48 * 60 * 60 * 1000)
-            - ahora.getTime();
-
-
-        if(diferencia <= 0){
-
-            contador.textContent =
-                "Solicitud vencida";
-
-            return;
-
-        }
-
-
-        const horas =
-            Math.floor(diferencia / (1000 * 60 * 60));
-
-
-        const minutos =
-            Math.floor(
-                (diferencia % (1000 * 60 * 60))
-                / (1000 * 60)
-            );
-
+        const minutos = Math.floor(
+            (diferencia % (1000 * 60 * 60)) / (1000 * 60)
+        );
 
         contador.textContent =
-            horas > 0
-            ? `⏱ Quedan ${horas} h ${minutos} min para responder`
-            : `⏱ Quedan ${minutos} min para responder`;
+            `⏱ Quedan ${horas} h ${minutos} min para responder`;
 
     });
 
@@ -401,8 +338,8 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
                     <p class="estado-solicitud-tarjeta pendiente">
                         Solicitud pendiente
                     </p>
-                   
-                    <p 
+                    
+                    <p
                         class="tiempo-respuesta"
                         data-fecha="${estadosSolicitudes[p.id].created_at}">
                     </p>
@@ -413,11 +350,6 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
                 `
                     <p class="estado-solicitud-tarjeta aceptado">
                         Intercambio aceptado
-                    </p>
-
-                    <p 
-                        class="tiempo-restante"
-                        data-fecha="${estadosSolicitudes[p.id].fecha_aceptacion}">
                     </p>
                 `
                 :
@@ -473,15 +405,9 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
         `;
     }
 
-    actualizarContadores();
-
     actualizarRespuestaPendiente();
-
-    setInterval(actualizarContadores, 60000);
-
-    setInterval(actualizarRespuestaPendiente, 60000);
-
-    }
+  
+}
 
 /* ---------------------------
    VARIABLES
