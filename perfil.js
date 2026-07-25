@@ -234,18 +234,47 @@ if (errorSolicitudes) {
 
                         ${
                             (
-                                (soyDueno && !sol.resultado_usuario_dueno) ||
-                                (!soyDueno && !sol.resultado_usuario_solicitante)
+                                soyDueno
                             )
                             ?
                             `
-                                
+                            <div class="acciones botones-intercambio">
+
+                                <button
+                                    class="btn-principal btn-verde"
+                                    onclick="marcarIntercambio(${sol.id}, 'exitoso')">
+                                    Intercambio exitoso
+                                </button>
+
+                                <button
+                                    class="btn-secundario btn-naranja"
+                                    onclick="marcarIntercambio(${sol.id}, 'fallo')">
+                                    Falló el intercambio
+                                </button>
+
+                            </div>
                             `
                             :
                             ""
                         }
 
                     </div>
+                    `
+                    :
+                    sol.estado === "finalizado"
+                    ?
+                    `
+                    <p class="estado-solicitud-tarjeta aceptado">
+                        Intercambio finalizado
+                    </p>
+                    `
+                    :
+                    sol.resultado_usuario_dueno === "fallo" || sol.resultado_usuario_solicitante === "fallo"
+                    ?
+                    `
+                    <p class="estado-solicitud-tarjeta rechazado">
+                        Intercambio no realizado
+                    </p>
                     `
                     :
                     `
@@ -506,33 +535,33 @@ async function rechazarSolicitud(id){
         })
         .eq("id", id);
 
-    const { data: solicitudActualizada } = await supabaseClient
-        .from("solicitudes_intercambio")
-        .select(`
-            resultado_usuario_dueno,
-            resultado_usuario_solicitante,
-            publicacion_id
-        `)
-        .eq("id", id)
-        .single();
+        const { data: solicitudActualizada } = await supabaseClient
+            .from("solicitudes_intercambio")
+            .select(`
+                publicacion_id
+            `)
+            .eq("id", id)
+            .single();
 
-    if (
-        solicitudActualizada.resultado_usuario_dueno &&
-        solicitudActualizada.resultado_usuario_solicitante
-    ) {
 
-        const ambosExitosos =
-            solicitudActualizada.resultado_usuario_dueno === "exitoso" &&
-            solicitudActualizada.resultado_usuario_solicitante === "exitoso";
+        const estadoFinal =
+            resultado === "exitoso"
+            ? "finalizado"
+            : "disponible";
+
+        console.log("DATOS:", solicitudActualizada, estadoFinal);
+        console.log("ESTADO FINAL A GUARDAR:", estadoFinal);
+
 
         await supabaseClient
-            .from("publicaciones")
-            .update({
-                estado_intercambio: ambosExitosos ? "finalizado" : "disponible"
-            })
-            .eq("id", solicitudActualizada.publicacion_id);
+            const { error: errorPublicacion } = await supabaseClient
+                .from("publicaciones")
+                .update({
+                    estado_intercambio: estadoFinal
+                })
+                .eq("id", solicitudActualizada.publicacion_id);
 
-    }
+            console.log("RESULTADO UPDATE PUBLICACION:", errorPublicacion);
 
         if(error){
 
@@ -651,6 +680,8 @@ document.getElementById("modalContacto")
 
 async function marcarIntercambio(id, resultado){
 
+    console.log("MARCAR INTERCAMBIO", id, resultado);
+
     const { data } = await supabaseClient.auth.getSession();
 
     const usuarioAuth = data.session.user;
@@ -691,7 +722,8 @@ async function marcarIntercambio(id, resultado){
 
     }
 
-    
+    console.log("LLEGO AL UPDATE FINAL");
+
     const { data: solicitudActualizada } = await supabaseClient
         .from("solicitudes_intercambio")
         .select(`
@@ -702,30 +734,31 @@ async function marcarIntercambio(id, resultado){
         .eq("id", id)
         .single();
     
-    if(
-        solicitudActualizada.resultado_usuario_dueno &&
-        solicitudActualizada.resultado_usuario_solicitante
-    ){
+    const estadoFinal =
+        resultado === "exitoso"
+        ? "finalizado"
+        : "disponible";
 
-        const estadoFinal =
-            solicitudActualizada.resultado_usuario_dueno === "exitoso" &&
-            solicitudActualizada.resultado_usuario_solicitante === "exitoso"
-            ? "finalizado"
-            : "disponible";
 
-        console.log("CAMBIO ESTADO PUBLICACION:", estadoFinal, solicitudActualizada.publicacion_id);
+     await supabaseClient
+        .from("solicitudes_intercambio")
+        .update({
+            estado: estadoFinal
+        })
+        .eq("id", id);
 
-       
-        await supabaseClient
-            .from("publicaciones")
-            .update({
-                estado_intercambio: estadoFinal
-            })
-            .eq("id", solicitudActualizada.publicacion_id);
 
-    }
+    await supabaseClient
+        .from("publicaciones")
+        .update({
+            estado_intercambio: estadoFinal
+        })
+        .eq("id", solicitudActualizada.publicacion_id);
 
+    console.log("ESTADO PUBLICACION:", estadoFinal);
+    console.log("SOLICITUD ACTUALIZADA:", solicitudActualizada);    
     alert("Resultado registrado correctamente.");
+
 
     location.reload();
 

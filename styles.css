@@ -39,7 +39,7 @@
     align-items:center;
 
     min-width:140px;
-    height:42px;
+    height:30px;
 
     border:none;
     border-radius:8px;
@@ -2367,4 +2367,37 @@ body{
 
     }
 
+}
+
+/* Botones intercambio exitoso o fallido y mostrar contacto */
+
+.botones-intercambio button {
+    height: 40px;
+    padding: 8px 18px;
+}
+
+.acciones button {
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.acciones button.btn-azul {
+    line-height: 1;
+}
+
+.acciones {
+    display: flex;
+    align-items: center;
+}
+
+.acciones button {
+    margin-top: 0;
+    margin-bottom: 0;
+    transform: none;
+}
+
+.acciones button {
+    width: 130px;
 }

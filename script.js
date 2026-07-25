@@ -1,5 +1,3 @@
-console.log("SCRIPT JS CARGADO");
-
 (async () => {
 
     const { data } = await supabaseClient.auth.getSession();
@@ -70,7 +68,9 @@ async function cargarPublicacionesSupabase() {
 
     publicaciones = data.filter(pub => {
 
-        return new Date(pub.created_at) >= hace30Dias;
+        return new Date(pub.created_at) >= hace30Dias
+        &&
+        pub.estado_intercambio !== "finalizado";
 
     });
 
@@ -82,7 +82,7 @@ async function cargarSolicitudesPendientes() {
     const { data: solicitudes, error } = await supabaseClient
         .from("solicitudes_intercambio")
         .select("publicacion_id, estado, fecha_aceptacion, created_at")
-        .in("estado", ["pendiente", "aceptado"]);
+        .in("estado", ["pendiente", "aceptado", "finalizado"]);
 
     if (error) {
 
@@ -354,6 +354,18 @@ function renderizarPublicaciones(filtro = "", categoria = "") {
                 `
                 :
                 estadosSolicitudes[p.id]?.estado === "aceptado"
+                ?
+                `
+                <p class="estado-solicitud-tarjeta aceptado">
+                    Intercambio aceptado
+                </p>
+                `
+                :
+                estadosSolicitudes[p.id]?.estado === "finalizado"
+                ?
+                ""
+                :
+                ""
                 ?
                 `
                 <p class="estado-solicitud-tarjeta aceptado">
