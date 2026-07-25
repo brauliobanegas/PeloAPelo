@@ -239,17 +239,7 @@ if (errorSolicitudes) {
                             )
                             ?
                             `
-                                <button
-                                    class="btn-principal btn-verde"
-                                    onclick="marcarIntercambio(${sol.id}, 'exitoso')">
-                                    Intercambio exitoso
-                                </button>
-
-                                <button
-                                    class="btn-secundario btn-naranja"
-                                    onclick="marcarIntercambio(${sol.id}, 'fallo')">
-                                    Falló el intercambio
-                                </button>
+                                
                             `
                             :
                             ""
@@ -298,10 +288,7 @@ if (errorSolicitudes) {
 
     }
 
-    actualizarContadores();
-
-
-
+  
 
 }
 
@@ -725,6 +712,8 @@ async function marcarIntercambio(id, resultado){
             solicitudActualizada.resultado_usuario_solicitante === "exitoso"
             ? "finalizado"
             : "disponible";
+
+        console.log("CAMBIO ESTADO PUBLICACION:", estadoFinal, solicitudActualizada.publicacion_id);
 
        
         await supabaseClient
