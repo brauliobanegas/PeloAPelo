@@ -2448,3 +2448,21 @@ body{
     width: 130px;
 }
 
+.campoPassword{
+
+    display:flex;
+    align-items:center;
+
+}
+
+.campoPassword input{
+
+    flex:1;
+
+}
+
+.campoPassword button{
+
+    margin-left:8px;
+
+}

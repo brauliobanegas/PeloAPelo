@@ -56,3 +56,18 @@ document.getElementById("aceptoTerminos")
     document.getElementById("btnRegistro").disabled = !this.checked;
 
 });
+
+const btnMostrarPassword = document.getElementById("mostrarPassword");
+const campoPassword = document.getElementById("password");
+
+btnMostrarPassword.addEventListener("mousedown", () => {
+    campoPassword.type = "text";
+});
+
+btnMostrarPassword.addEventListener("mouseup", () => {
+    campoPassword.type = "password";
+});
+
+btnMostrarPassword.addEventListener("mouseleave", () => {
+    campoPassword.type = "password";
+});

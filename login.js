@@ -26,3 +26,18 @@ document
         mensaje.textContent = "¡Bienvenido a PeloAPelo!";
         window.location.href = "index.html";
     });
+
+    const btnMostrarPassword = document.getElementById("mostrarPassword");
+const campoPassword = document.getElementById("password");
+
+btnMostrarPassword.addEventListener("mousedown", () => {
+    campoPassword.type = "text";
+});
+
+btnMostrarPassword.addEventListener("mouseup", () => {
+    campoPassword.type = "password";
+});
+
+btnMostrarPassword.addEventListener("mouseleave", () => {
+    campoPassword.type = "password";
+});
