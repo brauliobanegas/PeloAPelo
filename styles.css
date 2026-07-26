@@ -143,6 +143,18 @@ body{
 
     align-items:center;
 
+    position:relative;
+
+}
+
+.saludoUsuario{
+
+    font-size:1.5rem !important;
+    font-weight:600;
+    color:#F2C94C !important;
+    text-shadow:0 2px 6px rgba(0,0,0,.35);
+    margin:0;
+
 }
 
 .accionesUsuario{
@@ -1341,6 +1353,37 @@ body{
 
 }
 
+@media (max-width: 768px){
+
+    .headerSuperior{
+
+        flex-direction:column;
+
+    }
+
+    .marca{
+
+        width:100%;
+
+    }
+
+    .saludoUsuario{
+
+        position:static;
+        transform:none;
+        margin-top:10px;
+        order:2;
+
+    }
+
+    .accionesUsuario{
+
+        order:3;
+
+    }
+
+}
+
 }
 
 /* Estilo general de botones del header */
@@ -1488,6 +1531,8 @@ body{
     position:relative;
     overflow:hidden;
 
+    background:linear-gradient(90deg,#35506F,#243B55,#35506F);
+
 }
 
 .contenedorCuenta::before{
@@ -1531,6 +1576,7 @@ body{
 
     margin:0;
     font-size:42px;
+    text-align:center;
 
 }
 
@@ -2401,3 +2447,4 @@ body{
 .acciones button {
     width: 130px;
 }
+

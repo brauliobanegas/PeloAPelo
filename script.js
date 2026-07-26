@@ -10,6 +10,21 @@
         btnFormulario.style.display = "block";
         formulario.style.display = "none";
         document.getElementById("btnLogin").style.display = "none";
+        const { data: usuario } = await supabaseClient
+            .from("usuarios")
+            .select("nombre")
+            .eq("auth_id", data.session.user.id)
+            .single();
+
+        if (usuario) {
+
+            const saludo = document.getElementById("saludoUsuario");
+
+            saludo.textContent = "¡Buenas, " + usuario.nombre + "!";
+
+            saludo.style.display = "block";
+
+        }
         document.getElementById("btnRegistro").style.display = "none";
 
         document.getElementById("btnPerfil").style.display = "inline-block";
