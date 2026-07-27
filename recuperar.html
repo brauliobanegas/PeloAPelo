@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Recuperar contraseña - PeloAPelo</title>
+
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+
+<body>
+
+
+<div class="contenedorCuenta">
+
+
+    <div class="marcaCuenta">
+
+        <h1 class="logo">
+            <span class="logoCeleste">Pe</span><span class="logoBlanco">lo</span><span class="logoAmarillo">A</span><span class="logoBlanco">Pe</span><span class="logoCeleste">lo</span>
+        </h1>
+
+
+        <p class="eslogan">
+            Segundas vidas. Nuevos tesoros
+        </p>
+
+    </div>
+
+
+
+    <div class="tarjetaCuenta">
+
+
+        <h2>Recuperar contraseña</h2>
+
+
+        <p>
+            Ingresá tu email y te enviaremos un enlace para crear una nueva contraseña.
+        </p>
+
+
+        <form id="formRecuperar">
+
+
+            <label>
+                Email:
+
+                <input 
+                    type="email" 
+                    id="email"
+                    required
+                >
+
+            </label>
+
+
+            <button type="submit" class="btnCuenta">
+                Enviar enlace
+            </button>
+
+
+        </form>
+
+
+        <p id="mensaje"></p>
+
+
+        <p class="enlaceCuenta">
+
+            <a href="login.html">
+                Volver a ingresar
+            </a>
+
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase.js"></script>
+
+<script src="recuperar.js"></script>
+
+
+</body>
+
+</html>

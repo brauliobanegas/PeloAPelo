@@ -1631,7 +1631,7 @@ body{
 
     box-shadow:0 8px 25px rgba(0,0,0,0.12);
 
-    width:350px;
+    width:300px;
 
     max-width:90%;
 
@@ -1657,10 +1657,29 @@ body{
 
     font-size:15px;
 
+    width:100%;
+
+    box-sizing:border-box;
+
 }
 
+.tarjetaCuenta label{
+
+    display:block;
+
+    margin-bottom:15px;
+
+}
+
+
 #formRegistro button,
-#formLogin button{
+#formLogin button,
+#formNuevaPassword button,
+#formRecuperar button{
+
+    display:block;
+
+    margin:25px auto 0;
 
     background:#2e8b57;
 
@@ -1682,13 +1701,29 @@ body{
 
 }
 
+#formLogin > button{
+
+    margin-top:1px;
+
+}
+
 
 #formRegistro button:hover,
-#formLogin button:hover{
+#formLogin button:hover,
+#formNuevaPassword button:hover,
+#formRecuperar button:hover{
 
     background:#247447;
 
     transform:translateY(-2px);
+
+}
+
+#formRecuperar button{
+
+    display:block;
+
+    margin:25px auto 0 auto;
 
 }
 
@@ -2448,13 +2483,6 @@ body{
     width: 130px;
 }
 
-.campoPassword{
-
-    display:flex;
-    align-items:center;
-
-}
-
 .campoPassword input{
 
     flex:1;
@@ -2466,3 +2494,4 @@ body{
     margin-left:8px;
 
 }
+
