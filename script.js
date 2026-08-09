@@ -751,6 +751,29 @@ Del mismo modo, vos recibirás esos mismos datos del propietario para que puedan
             .eq("id", publicacionSeleccionada.id)
             .select();
 
+        const { data: dueno } = await supabaseClient
+            .from("usuarios")
+            .select("email, nombre")
+            .eq("id", publicacionSeleccionada.usuario_id)
+            .single();
+
+        if (dueno?.email) {
+
+            const { data: solicitante } = await supabaseClient
+                .from("usuarios")
+                .select("nombre")
+                .eq("id", usuario.id)
+                .single();
+
+            await enviarEmailPeloAPelo(
+                dueno.email,
+                "Nueva solicitud de intercambio en PeloAPelo",
+                `<h2>¡Tenés una nueva solicitud!</h2>
+                <p><strong>${solicitante?.nombre || "Un usuario"}</strong> está interesado en intercambiar por tu publicación.</p>
+                <p>Entrá a PeloAPelo para ver la solicitud.</p>`
+            );
+
+        }
        
     }
 
@@ -860,6 +883,26 @@ function editarPublicacion(id) {
     window.location.href =
     `perfil.html?solicitud=${idSolicitud}`;
 
+}
+
+async function enviarEmailPeloAPelo(to, subject, html) {
+
+    const { data, error } =
+        await supabaseClient.functions.invoke("resend-email", {
+            body: {
+                to,
+                subject,
+                html
+            }
+        });
+
+    if (error) {
+        console.error("Error enviando email:", error);
+        return false;
+    }
+
+    console.log("Email enviado:", data);
+    return true;
 }
 
  async function cargarNotificaciones() {
