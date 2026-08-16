@@ -638,15 +638,19 @@ btnPublicar.textContent = "Publicar";
 
         const btnCambiar = document.getElementById("btnCambiar");
 
-        if (pub.usuario_id === usuarioActualId) {
+        if (!usuarioActualId) {
+
+            btnCambiar.style.display = "none";
+
+        } else if (pub.usuario_id === usuarioActualId) {
 
             btnCambiar.style.display = "none";
 
         } else {
 
             btnCambiar.style.display = "block";
-
             verificarSolicitudPendiente(pub.id);
+
         }
     } 
 
@@ -973,11 +977,26 @@ async function enviarEmailPeloAPelo(to, subject, html) {
 
     usuarioActualId = await obtenerUsuarioActual();
 
+    const contenedorNotificaciones =
+        document.getElementById("contenedorNotificaciones");
+
+    if (contenedorNotificaciones) {
+
+        if (usuarioActualId) {
+            contenedorNotificaciones.style.display = "block";
+        } else {
+            contenedorNotificaciones.style.display = "none";
+        }
+
+    }
+
     await cargarSolicitudesPendientes();
 
     publicaciones = await cargarPublicacionesSupabase();
 
-    await cargarNotificaciones();
+    if (usuarioActualId) {
+        await cargarNotificaciones();
+    }
 
     renderizarPublicaciones();
 
@@ -1088,10 +1107,7 @@ document.getElementById("listaNotificaciones");
 
 
 if (contenedorNotificaciones && listaNotificaciones){
-
-    listaNotificaciones.innerHTML =
-        "<div class='itemNotificacion'>Prueba</div>";
-
+    
     contenedorNotificaciones.onclick = function(){
 
         console.log("CLICK");
