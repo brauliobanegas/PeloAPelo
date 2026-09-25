@@ -83,9 +83,12 @@ async function cargarPublicacionesSupabase() {
 
     publicaciones = data.filter(pub => {
 
-        return new Date(pub.created_at) >= hace30Dias
-        &&
-        pub.estado_intercambio !== "finalizado";
+        const esPermanente = pub.usuario_id === 22;
+
+        return (
+            (esPermanente || new Date(pub.created_at) >= hace30Dias) &&
+            pub.estado_intercambio !== "finalizado"
+        );
 
     });
 
